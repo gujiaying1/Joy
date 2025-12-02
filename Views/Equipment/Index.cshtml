@@ -1,0 +1,63 @@
+﻿@using JoyRiseFitness.Models
+@model IEnumerable<Equipment>
+@{
+    ViewBag.Title = "Equipment Tutorial";
+    int page = ViewBag.Page;
+    int maxPage = ViewBag.MaxPage;
+}
+
+<section class="eq-list glass reveal">
+    <h2 class="reveal">Find Your Perfect Move</h2>
+
+    <form method="get" class="filter-bar reveal">
+        <input type="text" name="q" placeholder="Search equipment…" value="@ViewBag.Query" />
+        <select name="part">
+            <option value="">All Parts</option>
+            @foreach (MusclePart mp in Enum.GetValues(typeof(MusclePart)))
+            {
+                <option value="@mp" selected="@(mp==ViewBag.Part)">@mp</option>
+            }
+        </select>
+        <select name="sort">
+            <option value="">Default</option>
+            <option value="diff-asc" selected="@(ViewBag.Sort=="diff-asc")">Difficulty ↑</option>
+            <option value="diff-desc" selected="@(ViewBag.Sort=="diff-desc")">Difficulty ↓</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <div class="cards">
+        @{int i = 0;}
+        @foreach (var item in Model)
+        {
+            <div class="card reveal" data-id="@item.Id" style="animation-delay:@(i++*80)ms">
+                <img src="@item.ImgUrl" alt="@item.Name" />
+                <h3>@item.Name</h3>
+                <p class="part">@item.Part · @item.Difficulty</p>
+                <p class="desc">@item.ShortDesc</p>
+                <div class="foot">
+                    <!-- 修复Detail链接 -->
+                    <a href="@Url.Action("Detail", "Equipment", new { id = item.Id })" class="btn">Detail</a>
+                    <span class="heart" onclick="toggleFav(@item.Id,this)">❤</span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- 分页 -->
+    @if (maxPage > 1)
+    {
+        <div class="paging">
+            @for (int np = 1; np <= maxPage; np++)
+            {
+                <a class="@(np==page?"on":"")"
+                   href="@Url.Action("Index", new { q = ViewBag.Query, part = ViewBag.Part, sort = ViewBag.Sort, p = np })">@np</a>
+            }
+        </div>
+    }
+</section>
+
+<script src="@Url.Content("~/Scripts/favorite.js")"></script>
+<script>
+    window.addEventListener('load', () => document.querySelectorAll('.reveal').forEach(e => e.classList.add('visible')));
+</script>

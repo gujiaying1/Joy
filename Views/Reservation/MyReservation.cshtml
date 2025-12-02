@@ -1,0 +1,108 @@
+@@model IEnumerable<JoyRiseFitness.Models.Reservation>
+    @{
+        ViewBag.Title = "我的预约";
+    }
+
+    <section class="my-resv">
+
+        <div class="resv-header">
+            <h1>我的预约</h1>
+            <p class="sub">查看你已预约的时段，可随时取消调整</p>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty">
+                <p>暂无预约记录，去 @Html.ActionLink("预约", "Index", "Reservation") 吧~</p>
+            </div>
+        }
+        else
+        {
+            <table class="resv-table">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>时段</th>
+                        <th>人数</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                            <td>@item.Hour:00 - @(item.Hour + 1):00</td>
+                            <td>@item.Count 人</td>
+                            <td>
+                                @using (Html.BeginForm("Cancel", "Reservation", FormMethod.Post, new { style = "display:inline;" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button class="cancel-btn" onclick="return confirm('确定取消该预约吗？')">取消</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </section>
+
+    <style>
+        .my-resv {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .resv-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+            .resv-table th {
+                background: #f3f6fb;
+                padding: 14px;
+            }
+
+            .resv-table td {
+                padding: 14px;
+                border-bottom: 1px solid #eee;
+            }
+
+        .cancel-btn {
+            background: none;
+            border: none;
+            color: #e04545;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .empty {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+        }
+
+        keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        }
+    </style>

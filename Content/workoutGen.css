@@ -1,0 +1,72 @@
+﻿.gen-hero {
+    text-align: center;
+    padding: 60px 20px;
+    color: #fff;
+}
+
+.gen-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.glass-inp {
+    flex: 1 1 200px;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 16px;
+    background: rgba(255,255,255,.25);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    font-size: 1rem;
+}
+
+    .glass-inp::placeholder {
+        color: #ddd;
+    }
+
+.btn-gen {
+    padding: 14px 32px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg,#007aff,#0056d6);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: .3s;
+}
+
+    .btn-gen:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0,122,255,.4);
+    }
+
+#result, #myPlan {
+    margin: 40px auto;
+    max-width: 1200px;
+}
+
+.empty {
+    text-align: center;
+    color: #777;
+}
+
+.plan-item {
+    position: relative;
+}
+
+.del-btn {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: #e91e63;
+    color: #fff;
+    border: 0;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: .75rem;
+    cursor: pointer;
+}

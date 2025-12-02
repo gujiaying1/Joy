@@ -1,0 +1,149 @@
+@{
+    ViewBag.Title = "Login";
+}
+
+<section class="login-wrapper">
+    <div class="login-card">
+        <h1>Login</h1>
+        <p class="sub">Welcome back! Please sign in to continue.</p>
+
+        @Html.ValidationSummary()
+
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <label>Username</label>
+                <input name="userName" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input name="password" type="password" class="form-input" required />
+            </div>
+
+            <button class="submit-btn">Sign In</button>
+
+            <div class="sub-links">
+                <a href="@Url.Action("Register")">Create an account</a>
+            </div>
+        }
+
+        <div class="guest-box">
+            <p>Or</p>
+            <a href="@Url.Action("GuestLogin")" class="guest-btn">Continue as Guest</a>
+        </div>
+
+        <div class="demo-info">
+            <p><strong>Demo Login:</strong></p>
+            <p>Username: <b>test</b></p>
+            <p>Password: <b>123456</b></p>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Wrapper */
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 50px 0;
+        animation: fadeIn .6s ease;
+    }
+
+    /* Card */
+    .login-card {
+        width: 420px;
+        background: #ffffff;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+        animation: fadeIn .5s ease;
+    }
+
+        .login-card h1 {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+    .sub {
+        margin-bottom: 25px;
+        color: #666;
+    }
+
+    /* Inputs */
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        transition: .25s;
+    }
+
+        .form-input:focus {
+            border-color: #4a8df1;
+            box-shadow: 0 0 6px rgba(74,141,241,0.3);
+        }
+
+    /* Button */
+    .submit-btn {
+        width: 100%;
+        padding: 14px 0;
+        background: #4a8df1;
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        transition: .25s;
+    }
+
+        .submit-btn:hover {
+            background: #3c73d0;
+        }
+
+    /* Guest */
+    .guest-box {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    .guest-btn {
+        padding: 12px 20px;
+        background: #eee;
+        border-radius: 10px;
+        display: inline-block;
+        text-decoration: none;
+        color: #333;
+        transition: .25s;
+    }
+
+        .guest-btn:hover {
+            background: #ddd;
+        }
+
+    /* Demo */
+    .demo-info {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    /* Animation */
+    keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    }
+</style>

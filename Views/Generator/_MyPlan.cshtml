@@ -1,0 +1,31 @@
+@model List<JoyRiseFitness.Models.Workout>
+@if (!Model.Any())
+{
+    <div class="empty-state">
+        <i class="fas fa-clipboard-list"></i>
+        <p>No exercises in your plan yet. Generate some workouts!</p>
+    </div>
+}
+else
+{
+    <div class="plan-list">
+        @foreach (var w in Model)
+        {
+            <div class="plan-item">
+                <a href="@Url.Action("Detail", "Equipment", new { id = w.Id })" class="plan-card">
+                    <img src="@w.ImgUrl" alt="@w.Name" class="exercise-image" />
+                    <div class="exercise-content">
+                        <h3 class="exercise-name">@w.Name</h3>
+                        <div class="exercise-meta">
+                            <span class="exercise-part">@w.Part</span>
+                            <span class="exercise-difficulty">@w.Difficulty</span>
+                        </div>
+                    </div>
+                </a>
+                <button class="delete-btn" onclick="delPlan(@w.Id)">
+                    <i class="fas fa-trash"></i> Remove
+                </button>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,117 @@
+@{
+    ViewBag.Title = "Member Center";
+}
+
+<section class="dashboard-wrapper">
+
+    <div class="dash-header">
+        <h1>Hello, @ViewBag.Uname</h1>
+        <p class="sub">Welcome to your personal fitness dashboard</p>
+    </div>
+
+    <div class="dash-card-container">
+
+        <a href="@Url.Action("MyReservation")" class="dash-card">
+            <h3>My Reservations</h3>
+            <p>View or cancel your bookings</p>
+        </a>
+
+        <a href="@Url.Action("MyFavorite")" class="dash-card">
+            <h3>My Favorites</h3>
+            <p>Saved equipment & actions</p>
+        </a>
+
+        <a href="@Url.Action("Calorie")" class="dash-card">
+            <h3>Calorie Tracker</h3>
+            <p>Record or estimate calorie burn</p>
+        </a>
+
+    </div>
+
+    <form action="@Url.Action("Logout")" method="post" class="logout-form">
+        <button class="logout-btn">Log Out</button>
+    </form>
+
+</section>
+
+<style>
+    .dashboard-wrapper {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 25px;
+        animation: fadeIn .6s ease;
+    }
+
+    .dash-header h1 {
+        font-size: 36px;
+        font-weight: 700;
+    }
+
+    .dash-header .sub {
+        margin-top: 6px;
+        color: #555;
+    }
+
+    /* Cards */
+    .dash-card-container {
+        margin-top: 30px;
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .dash-card {
+        flex: 1 1 calc(33% - 20px);
+        min-width: 260px;
+        background: #fff;
+        padding: 25px;
+        border-radius: 18px;
+        text-decoration: none;
+        color: #222;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        transition: .25s;
+    }
+
+        .dash-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(74,141,241,0.35);
+        }
+
+        .dash-card h3 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+    /* Logout */
+    .logout-form {
+        margin-top: 35px;
+    }
+
+    .logout-btn {
+        background: #ddd;
+        border: none;
+        padding: 14px 20px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: .25s;
+    }
+
+        .logout-btn:hover {
+            background: #ccc;
+        }
+
+    /* Animation */
+    keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    }
+</style>

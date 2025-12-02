@@ -1,0 +1,26 @@
+@model List<JoyRiseFitness.Models.Workout>
+@if (!Model.Any())
+{
+    <div class="empty-state">
+        <i class="fas fa-dumbbell"></i>
+        <p>No matching exercises found. Try different criteria.</p>
+    </div>
+}
+else
+{
+    <div class="exercises-grid">
+        @foreach (var w in Model)
+        {
+            <div class="exercise-card" data-id="@w.Id">
+                <img src="@w.ImgUrl" alt="@w.Name" class="exercise-image" />
+                <div class="exercise-content">
+                    <h3 class="exercise-name">@w.Name</h3>
+                    <div class="exercise-meta">
+                        <span class="exercise-part">@w.Part</span>
+                        <span class="exercise-difficulty">@w.Difficulty</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

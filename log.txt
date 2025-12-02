@@ -1,0 +1,12 @@
+Generate called: Part=, Level=, Goal=
+Generated 6 items
+Generate called: Part=, Level=Beginner, Goal=
+Generated 6 items
+Generate called: Part=, Level=, Goal=
+Generated 6 items
+Generate called: Part=, Level=, Goal=Strength
+Generated 3 items
+Generate called: Part=Chest, Level=, Goal=Strength
+Generated 0 items
+Generate called: Part=, Level=, Goal=
+Generated 6 items
