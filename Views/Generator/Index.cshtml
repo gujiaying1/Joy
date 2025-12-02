@@ -6,13 +6,13 @@
 }
 
 <section class="gen-container">
-    <!-- 头部 -->
+    <!-- Header -->
     <div class="gen-header">
         <h1 class="gen-title">Training Generator</h1>
         <p class="gen-subtitle">Create your personalized workout plan based on your goals and fitness level.</p>
     </div>
 
-    <!-- 生成器表单 -->
+    <!-- Generator Form -->
     <div class="form-section glass-card">
         <form id="genForm" class="gen-form">
             <div class="form-row">
@@ -80,7 +80,7 @@
         </form>
     </div>
 
-    <!-- 生成结果区域 -->
+    <!-- Results Section -->
     <div id="resultSection" class="result-section" style="display: none;">
         <div class="section-header">
             <h2>Generated Exercises</h2>
@@ -97,7 +97,7 @@
         </div>
     </div>
 
-    <!-- 我的计划区域 -->
+    <!-- My Plan Section -->
     <div id="myPlanSection" class="plan-section glass-card">
         <div class="section-header">
             <h2>My Training Plan</h2>
@@ -110,7 +110,7 @@
 </section>
 
 <style>
-    /* === 基础样式 === */
+    /* === Base Styles === */
     * {
         margin: 0;
         padding: 0;
@@ -119,12 +119,12 @@
 
     body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        background: #1a1a1a; /* 修改为深灰背景 */
-        color: #f5f5f7; /* 修改文字颜色为浅色 */
+        background: #1a1a1a;
+        color: #f5f5f7;
         line-height: 1.47059;
         font-weight: 400;
         min-height: 100vh;
-        padding-top: 80px; /* 防止导航栏遮挡内容 */
+        padding-top: 80px;
     }
 
     .gen-container {
@@ -133,7 +133,7 @@
         padding: 40px 24px;
     }
 
-    /* === 头部样式 === */
+    /* === Header Styles === */
     .gen-header {
         text-align: center;
         margin-bottom: 48px;
@@ -144,7 +144,7 @@
         font-weight: 700;
         letter-spacing: -0.003em;
         margin-bottom: 12px;
-        background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%); /* 修改为浅色渐变 */
+        background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -158,13 +158,13 @@
         margin: 0 auto;
     }
 
-    /* === 玻璃卡片效果 === */
+    /* === Glass Card Effect === */
     .glass-card {
-        background: rgba(30, 30, 30, 0.6); /* 修改为深色半透明 */
+        background: rgba(30, 30, 30, 0.6);
         backdrop-filter: blur(20px);
         border-radius: 18px;
-        border: 1px solid rgba(255, 255, 255, 0.15); /* 修改边框颜色 */
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); /* 加深阴影 */
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -173,7 +173,7 @@
             transform: translateY(-2px);
         }
 
-    /* === 表单样式 === */
+    /* === Form Styles === */
     .form-section {
         padding: 40px;
         margin-bottom: 32px;
@@ -200,17 +200,17 @@
         font-size: 17px;
         font-weight: 600;
         margin-bottom: 8px;
-        color: #f5f5f7; /* 修改为浅色 */
+        color: #f5f5f7;
     }
 
     .form-select, .form-input {
         width: 100%;
         padding: 14px 16px;
         font-size: 17px;
-        border: 1px solid rgba(255, 255, 255, 0.2); /* 修改边框颜色 */
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 12px;
-        background: rgba(255, 255, 255, 0.1); /* 修改背景色 */
-        color: #f5f5f7; /* 修改文字颜色 */
+        background: rgba(255, 255, 255, 0.1);
+        color: #f5f5f7;
         transition: all 0.2s ease;
         appearance: none;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23f5f5f7' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
@@ -232,7 +232,19 @@
             color: rgba(245, 245, 247, 0.6);
         }
 
-    /* === 生成按钮 === */
+        /* Custom dropdown styling */
+        .form-select option {
+            background: #1a1a1a; /* Dark gray background for dropdown options */
+            color: #f5f5f7; /* Light text color */
+            padding: 12px;
+        }
+
+        /* Dropdown arrow customization */
+        .form-select::-ms-expand {
+            display: none; /* Hide default arrow in IE */
+        }
+
+    /* === Generate Button === */
     .generate-btn {
         width: 100%;
         padding: 16px 24px;
@@ -284,7 +296,7 @@
         }
     }
 
-    /* === 结果区域 === */
+    /* === Results Section === */
     .result-section {
         margin-bottom: 48px;
     }
@@ -298,7 +310,7 @@
             font-size: 32px;
             font-weight: 700;
             margin-bottom: 8px;
-            color: #f5f5f7; /* 修改为浅色 */
+            color: #f5f5f7;
         }
 
         .section-header p {
@@ -318,7 +330,7 @@
     }
 
     .exercise-card {
-        background: rgba(30, 30, 30, 0.6); /* 修改为深色背景 */
+        background: rgba(30, 30, 30, 0.6);
         border-radius: 16px;
         overflow: hidden;
         box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
@@ -326,7 +338,7 @@
         cursor: pointer;
         border: 2px solid transparent;
         position: relative;
-        color: #f5f5f7; /* 修改文字颜色 */
+        color: #f5f5f7;
     }
 
         .exercise-card:hover {
@@ -389,7 +401,7 @@
         font-weight: 500;
     }
 
-    /* === 保存操作 === */
+    /* === Save Actions === */
     .save-actions {
         text-align: center;
         padding-top: 24px;
@@ -417,7 +429,7 @@
             box-shadow: 0 8px 24px rgba(0, 113, 227, 0.3);
         }
 
-    /* === 我的计划区域 === */
+    /* === My Plan Section === */
     .plan-section {
         padding: 40px;
     }
@@ -467,7 +479,7 @@
             transform: scale(1.05);
         }
 
-    /* === 空状态 === */
+    /* === Empty State === */
     .empty-state {
         text-align: center;
         padding: 60px 20px;
@@ -484,7 +496,7 @@
             font-size: 17px;
         }
 
-    /* === 响应式设计 === */
+    /* === Responsive Design === */
     @@media (max-width: 768px) {
         .gen-container {
             padding: 24px 16px;
@@ -523,11 +535,11 @@
     $(function () {
         console.log('Training Generator loaded');
 
-        // 表单提交
+        // Form submission
         $('#genForm').on('submit', function (e) {
             e.preventDefault();
 
-            // 显示加载状态
+            // Show loading state
             const $btn = $(this).find('.generate-btn');
             $btn.find('.btn-text').hide();
             $btn.find('.btn-loader').show();
@@ -544,22 +556,22 @@
                     console.log('Workout generated successfully');
                     console.log('Result:', result);
 
-                    // 恢复按钮状态
+                    // Restore button state
                     $btn.find('.btn-text').show();
                     $btn.find('.btn-loader').hide();
                     $btn.prop('disabled', false);
 
-                    // 显示结果区域
+                    // Show results section
                     $('#resultSection').show();
                     $('#result').html(result);
 
-                    // 为生成的卡片添加点击事件
+                    // Add click events for generated cards
                     $('.exercise-card').off('click').on('click', function () {
                         $(this).toggleClass('selected');
                         updateSaveButton();
                     });
 
-                    // 滚动到结果区域
+                    // Scroll to results section
                     $('html, body').animate({
                         scrollTop: $('#resultSection').offset().top - 100
                     }, 500);
@@ -569,7 +581,7 @@
                     console.error('Status:', status);
                     console.error('XHR:', xhr);
 
-                    // 恢复按钮状态
+                    // Restore button state
                     $btn.find('.btn-text').show();
                     $btn.find('.btn-loader').hide();
                     $btn.prop('disabled', false);
@@ -580,11 +592,11 @@
             });
         });
 
-        // 初始化加载我的计划
+        // Initialize loading of my plan
         loadMyPlan();
     });
 
-    // 更新保存按钮
+    // Update save button
     function updateSaveButton() {
         const selectedCount = $('.exercise-card.selected').length;
 
@@ -596,7 +608,7 @@
         }
     }
 
-    // 保存计划
+    // Save plan
     function savePlan() {
         const selectedIds = $('.exercise-card.selected').map(function () {
             return $(this).data('id');
@@ -618,13 +630,13 @@
                 console.log('Plan saved successfully:', result);
 
                 if (result.ok) {
-                    // 显示成功消息
+                    // Show success message
                     showNotification('Exercises added to your plan successfully!');
 
-                    // 刷新我的计划
+                    // Refresh my plan
                     loadMyPlan();
 
-                    // 重置选择状态
+                    // Reset selection state
                     $('.exercise-card.selected').removeClass('selected');
                     $('#saveActions').hide();
                 }
@@ -636,7 +648,7 @@
         });
     }
 
-    // 删除计划项目
+    // Delete plan item
     function delPlan(id) {
         if (!confirm('Are you sure you want to remove this exercise from your plan?')) {
             return;
@@ -663,7 +675,7 @@
         });
     }
 
-    // 加载我的计划
+    // Load my plan
     function loadMyPlan() {
         $.ajax({
             url: '@Url.Action("MyPlan", "Generator")',
@@ -677,9 +689,9 @@
         });
     }
 
-    // 显示通知
+    // Show notification
     function showNotification(message) {
-        // 创建通知元素
+        // Create notification element
         const notification = $('<div class="notification">')
             .text(message)
             .css({
@@ -696,10 +708,10 @@
                 fontWeight: '500'
             });
 
-        // 添加到页面
+        // Add to page
         $('body').append(notification);
 
-        // 3秒后移除
+        // Remove after 3 seconds
         setTimeout(() => {
             notification.fadeOut(300, function() {
                 $(this).remove();
@@ -707,6 +719,6 @@
         }, 3000);
     }
 
-    // 绑定保存按钮点击事件
+    // Bind save button click event
     $(document).on('click', '#savePlanBtn', savePlan);
 </script>

@@ -10,3 +10,17 @@ Generate called: Part=Chest, Level=, Goal=Strength
 Generated 0 items
 Generate called: Part=, Level=, Goal=
 Generated 6 items
+Generate called: Part=, Level=, Goal=LoseFat
+Generated 4 items
+Generate called: Part=, Level=Advanced, Goal=LoseFat
+Generated 0 items
+Generate called: Part=, Level=Advanced, Goal=LoseFat
+Generated 0 items
+Generate called: Part=, Level=Advanced, Goal=BuildMuscle
+Generated 0 items
+Generate called: Part=, Level=Advanced, Goal=Strength
+Generated 0 items
+Generate called: Part=Arms, Level=Advanced, Goal=Strength
+Generated 0 items
+Generate called: Part=, Level=, Goal=
+Generated 6 items
