@@ -76,6 +76,73 @@ namespace JoyRiseFitness.Controllers
             Session["MyPlan"] = plan;
             return Json(new { ok = true, count = plan.Count });
         }
+        // 在现有方法后面添加
+
+        [HttpPost]
+        public ActionResult AddToWorkoutPlan(AddToPlanRequest request)
+        {
+            try
+            {
+                var plan = Session["MyPlan"] as List<Workout> ?? new List<Workout>();
+
+                // 检查是否已存在
+                var existing = plan.FirstOrDefault(w => w.Id == request.EquipmentId);
+                if (existing != null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "This exercise is already in your plan!"
+                    });
+                }
+
+                // 从Workout种子数据获取完整信息
+                var workout = _db.FirstOrDefault(w => w.Id == request.EquipmentId);
+                if (workout == null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Workout not found"
+                    });
+                }
+
+                // 添加到用户计划
+                plan.Add(new Workout
+                {
+                    Id = workout.Id,
+                    Name = workout.Name,
+                    Part = workout.Part,
+                    Difficulty = workout.Difficulty,
+                    ImgUrl = workout.ImgUrl,
+                    Steps = workout.Steps,
+                    Alternatives = workout.Alternatives
+                });
+
+                Session["MyPlan"] = plan;
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Added to workout plan successfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                });
+            }
+        }
+
+        // 在文件末尾添加请求模型类
+        public class AddToPlanRequest
+        {
+            public int EquipmentId { get; set; }
+            public string EquipmentName { get; set; }
+        }
 
         [HttpPost]
         public ActionResult RemoveFromPlan(int id)

@@ -22,10 +22,81 @@ else
                         </div>
                     </div>
                 </a>
-                <button class="delete-btn" onclick="delPlan(@w.Id)">
+                <button class="delete-btn" onclick="removeFromPlan(@w.Id, this)">
                     <i class="fas fa-trash"></i> Remove
                 </button>
             </div>
         }
     </div>
 }
+
+<script>
+// 修改删除函数以接收this参数
+function removeFromPlan(id, button) {
+    if (!confirm('Remove this exercise from your plan?')) return;
+
+    // 显示加载状态
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    button.disabled = true;
+
+    fetch('@Url.Action("RemoveFromPlan", "Generator")', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ id: id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.ok) {
+            // 移除卡片
+            const card = button.closest('.plan-item');
+            card.style.opacity = '0.5';
+            card.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                card.remove();
+
+                // 更新Equipment页面的爱心状态
+                if (window.opener) {
+                    window.opener.updateHeartStatus(id, false);
+                }
+
+                // 更新本地存储
+                localStorage.removeItem(`plan_${id}`);
+
+                // 如果列表为空，重新加载
+                if (document.querySelectorAll('.plan-item').length === 0) {
+                    location.reload();
+                }
+            }, 300);
+        } else {
+            alert('Failed to remove. Please try again.');
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Network error. Please try again.');
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+// 全局函数，用于从其他页面更新爱心状态
+function updateHeartStatus(equipmentId, isInPlan) {
+    const heart = document.querySelector(`.heart[onclick*="${equipmentId}"]`);
+    if (heart) {
+        if (isInPlan) {
+            heart.classList.add('on');
+            heart.style.color = '#e91e63';
+        } else {
+            heart.classList.remove('on');
+            heart.style.color = '';
+        }
+    }
+}
+</script>

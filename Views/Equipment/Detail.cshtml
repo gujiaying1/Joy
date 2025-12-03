@@ -1943,7 +1943,7 @@
         }, 3000);
     }
 
-  
+
 
     // 视频选项点击事件
     document.querySelectorAll('.video-option').forEach(option => {
@@ -1969,5 +1969,93 @@
         // 这里可以根据阶段显示不同的步骤
         // 在实际项目中，可以预先定义不同阶段的步骤
         console.log(`Filtering steps by phase: ${phase}`);
+
     }
+  
+// 保存到训练计划
+function saveToWorkoutPlan() {
+    const equipmentId = @Model.Id;
+    const equipmentName = '@Model.Name';
+
+    fetch('@Url.Action("AddToWorkoutPlan", "Workout")', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+        },
+        body: JSON.stringify({
+            equipmentId: equipmentId,
+            equipmentName: equipmentName
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+        if (data.success) {
+            showNotification('"' + equipmentName + '" has been added to your workout plan!', 'success');
+
+            // 更新爱心状态
+            updateFavoriteStatus(equipmentId, true);
+        } else {
+            showNotification(data.message || 'Failed to add to plan', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Failed to save. Please try again.', 'error');
+    });
+}
+
+// 更新爱心状态
+function updateFavoriteStatus(equipmentId, isFavorite) {
+    // 在详细页更新爱心
+    const heartBtn = document.querySelector('.btn-fav');
+    if (heartBtn) {
+        heartBtn.innerHTML = isFavorite ?
+            '<i class="fas fa-heart"></i> In My Plan' :
+            '<i class="far fa-heart"></i> Add to Plan';
+        heartBtn.style.background = isFavorite ?
+            'linear-gradient(135deg, #e91e63, #c2185b)' :
+            'linear-gradient(135deg, #007aff, #0056d6)';
+    }
+
+    // 同时在列表页更新（如果用户返回列表页）
+    updateListFavoriteStatus(equipmentId, isFavorite);
+}
+
+// 更新列表页爱心状态
+function updateListFavoriteStatus(equipmentId, isFavorite) {
+    const listHearts = document.querySelectorAll(`.heart[data-id="${equipmentId}"]`);
+    listHearts.forEach(heart => {
+        if (isFavorite) {
+            heart.classList.add('on');
+            heart.style.color = '#e91e63';
+        } else {
+            heart.classList.remove('on');
+            heart.style.color = '#ccc';
+        }
+    });
+}
+
+// 初始化检查是否已加入计划
+function checkIfInWorkoutPlan() {
+    const equipmentId = @Model.Id;
+
+    fetch('@Url.Action("IsInWorkoutPlan", "Workout")?equipmentId=' + equipmentId)
+    .then(response => response.json())
+    .then(data => {
+        if (data.isInPlan) {
+            updateFavoriteStatus(equipmentId, true);
+        }
+    });
+}
+
+// 页面加载时检查
+document.addEventListener('DOMContentLoaded', function() {
+    checkIfInWorkoutPlan();
+});
 </script>

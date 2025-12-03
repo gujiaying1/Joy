@@ -24,3 +24,7 @@ Generate called: Part=Arms, Level=Advanced, Goal=Strength
 Generated 0 items
 Generate called: Part=, Level=, Goal=
 Generated 6 items
+Generate called: Part=, Level=, Goal=LoseFat
+Generated 4 items
+Generate called: Part=, Level=Beginner, Goal=LoseFat
+Generated 2 items
