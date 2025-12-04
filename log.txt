@@ -28,3 +28,5 @@ Generate called: Part=, Level=, Goal=LoseFat
 Generated 4 items
 Generate called: Part=, Level=Beginner, Goal=LoseFat
 Generated 2 items
+Generate called: Part=, Level=, Goal=LoseFat
+Generated 4 items

@@ -123,18 +123,12 @@
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\GeneratorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MemberController.cs" />
-    <Compile Include="Controllers\OccupancyController.cs" />
-    <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CalorieRecord.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Equipment.cs" />
-    <Compile Include="Models\OccupancyLog.cs" />
     <Compile Include="Models\Reservation.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Models\Workout.cs" />
     <Compile Include="Models\WorkoutGenViewModel.cs" />
     <Compile Include="Models\WorkoutSeed.cs" />
@@ -169,6 +163,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\equipment-detail.js" />
     <Content Include="Scripts\home-resv.js" />
     <Content Include="Scripts\home.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
@@ -182,8 +177,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\occPartial.js" />
-    <Content Include="Scripts\occupancy.js" />
-    <Content Include="Scripts\reservation.js" />
     <Content Include="Scripts\workoutGen.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -201,13 +194,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Equipment\Index.cshtml" />
     <Content Include="Views\Equipment\Detail.cshtml" />
-    <Content Include="Views\Reservation\Index.cshtml" />
-    <Content Include="Views\Member\Login.cshtml" />
-    <Content Include="Views\Member\Register.cshtml" />
-    <Content Include="Views\Member\Dashboard.cshtml" />
-    <Content Include="Views\Reservation\MyReservation.cshtml" />
     <Content Include="Views\Shared\_LiveOccupancy.cshtml" />
-    <Content Include="Views\Occupancy\Index.cshtml" />
     <Content Include="Views\Generator\Index.cshtml" />
     <Content Include="Views\Generator\_GeneratedList.cshtml" />
     <Content Include="Views\Generator\_MyPlan.cshtml" />

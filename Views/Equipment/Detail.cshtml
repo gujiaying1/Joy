@@ -1,2061 +1,388 @@
-﻿@model JoyRiseFitness.Models.Equipment
-@{
-    ViewBag.Title = Model.Name;
+﻿<html>
+<head>
+    <link rel="stylesheet" href="~/content/site.css" />
+</head>
+<body>
 
-    // 根据部位自动匹配推荐视频
-    var recommendedVideoUrl = GetRecommendedVideoUrl(Model.Part.ToString().ToLower(), Model.Name);
-}
+    ﻿@model JoyRiseFitness.Models.Equipment
+    @{
+        ViewBag.Title = Model.Name;
 
-@functions {
-    public string GetRecommendedVideoUrl(string part, string equipmentName)
-    {
-        // B站健身教学视频库（可以根据需要扩展）
-        var videoLibrary = new Dictionary<string, Dictionary<string, string>>
-        {
-            ["chest"] = new Dictionary<string, string>
-            {
-                ["Chest Press Machine"] = "BV1Jh411o7oA",
-                ["Chest Fly Machine"] = "BV1E64y1y7xw",
-                ["Pec Deck"] = "BV1dy4y1E7Nz",
-                ["Incline Press"] = "BV1rT411N7vB",
-                ["default"] = "BV1Jh411o7oA" // 胸部训练通用视频
-            },
-            ["legs"] = new Dictionary<string, string>
-            {
-                ["Leg Press"] = "BV1Q44y1B7uX",
-                ["Leg Extension"] = "BV1jU4y1B7jz",
-                ["Leg Curl"] = "BV1Kb4y1d7Nz",
-                ["Squat Rack"] = "BV1V5411T7nS",
-                ["default"] = "BV1Q44y1B7uX" // 腿部训练通用视频
-            },
-            ["back"] = new Dictionary<string, string>
-            {
-                ["Lat Pulldown"] = "BV1oV41177cS",
-                ["Seated Row"] = "BV1nL411w7AK",
-                ["Back Extension"] = "BV1fP4y1h7Sx",
-                ["T-Bar Row"] = "BV1tL411w7fW",
-                ["default"] = "BV1oV41177cS" // 背部训练通用视频
-            },
-            ["arms"] = new Dictionary<string, string>
-            {
-                ["Bicep Curl"] = "BV1w54y1v7or",
-                ["Triceps Pushdown"] = "BV1db4y1d7DG",
-                ["Preacher Curl"] = "BV1YQ4y1Z7JL",
-                ["Arm Extension"] = "BV1Jb4y1d7vY",
-                ["default"] = "BV1w54y1v7or" // 手臂训练通用视频
-            },
-            ["shoulders"] = new Dictionary<string, string>
-            {
-                ["Shoulder Press"] = "BV1nL4y1B7J4",
-                ["Lateral Raise"] = "BV1PV41177zL",
-                ["Front Raise"] = "BV1UL4y1B7oL",
-                ["Rear Delt Fly"] = "BV1ab4y1d7Gf",
-                ["default"] = "BV1nL4y1B7J4" // 肩部训练通用视频
-            }
-        };
-
-        if (videoLibrary.ContainsKey(part.ToLower()))
-        {
-            // 先尝试精确匹配器材名称
-            foreach (var key in videoLibrary[part.ToLower()].Keys)
-            {
-                if (equipmentName.ToLower().Contains(key.ToLower()))
-                {
-                    return videoLibrary[part.ToLower()][key];
-                }
-            }
-
-            // 使用该部位的默认视频
-            return videoLibrary[part.ToLower()]["default"];
-        }
-
-        // 默认返回一个通用健身视频
-        return "BV1Jh411o7oA";
+        // 根据部位自动匹配推荐视频
+        var recommendedVideoUrl = GetRecommendedVideoUrl(Model.Part.ToString().ToLower(), Model.Name);
     }
-}
 
-<section class="equipment-detail">
-    <!-- 头部信息 -->
-    <div class="detail-header glass-card">
-        <div class="breadcrumb">
-            <a href="@Url.Action("Index", "Equipment")"><i class="fas fa-arrow-left"></i> Equipment Library</a>
-            <span class="divider">/</span>
-            <span class="current-page">@Model.Name</span>
+    @functions {
+        public string GetRecommendedVideoUrl(string part, string equipmentName)
+        {
+            // B站健身教学视频库（可以根据需要扩展）
+            var videoLibrary = new Dictionary<string, Dictionary<string, string>>
+            {
+                ["chest"] = new Dictionary<string, string>
+                {
+                    ["Chest Press Machine"] = "BV1Jh411o7oA",
+                    ["Chest Fly Machine"] = "BV1E64y1y7xw",
+                    ["Pec Deck"] = "BV1dy4y1E7Nz",
+                    ["Incline Press"] = "BV1rT411N7vB",
+                    ["default"] = "BV1Jh411o7oA" // 胸部训练通用视频
+                },
+                ["legs"] = new Dictionary<string, string>
+                {
+                    ["Leg Press"] = "BV1Q44y1B7uX",
+                    ["Leg Extension"] = "BV1jU4y1B7jz",
+                    ["Leg Curl"] = "BV1Kb4y1d7Nz",
+                    ["Squat Rack"] = "BV1V5411T7nS",
+                    ["default"] = "BV1Q44y1B7uX" // 腿部训练通用视频
+                },
+                ["back"] = new Dictionary<string, string>
+                {
+                    ["Lat Pulldown"] = "BV1oV41177cS",
+                    ["Seated Row"] = "BV1nL411w7AK",
+                    ["Back Extension"] = "BV1fP4y1h7Sx",
+                    ["T-Bar Row"] = "BV1tL411w7fW",
+                    ["default"] = "BV1oV41177cS" // 背部训练通用视频
+                },
+                ["arms"] = new Dictionary<string, string>
+                {
+                    ["Bicep Curl"] = "BV1w54y1v7or",
+                    ["Triceps Pushdown"] = "BV1db4y1d7DG",
+                    ["Preacher Curl"] = "BV1YQ4y1Z7JL",
+                    ["Arm Extension"] = "BV1Jb4y1d7vY",
+                    ["default"] = "BV1w54y1v7or" // 手臂训练通用视频
+                },
+                ["shoulders"] = new Dictionary<string, string>
+                {
+                    ["Shoulder Press"] = "BV1nL4y1B7J4",
+                    ["Lateral Raise"] = "BV1PV41177zL",
+                    ["Front Raise"] = "BV1UL4y1B7oL",
+                    ["Rear Delt Fly"] = "BV1ab4y1d7Gf",
+                    ["default"] = "BV1nL4y1B7J4" // 肩部训练通用视频
+                }
+            };
+
+            if (videoLibrary.ContainsKey(part.ToLower()))
+            {
+                // 先尝试精确匹配器材名称
+                foreach (var key in videoLibrary[part.ToLower()].Keys)
+                {
+                    if (equipmentName.ToLower().Contains(key.ToLower()))
+                    {
+                        return videoLibrary[part.ToLower()][key];
+                    }
+                }
+
+                // 使用该部位的默认视频
+                return videoLibrary[part.ToLower()]["default"];
+            }
+
+            // 默认返回一个通用健身视频
+            return "BV1Jh411o7oA";
+        }
+    }
+
+    <section class="equipment-detail">
+        <!-- 头部信息 -->
+        <div class="detail-header glass-card">
+            <div class="breadcrumb">
+                <a href="@Url.Action("Index", "Equipment")"><i class="fas fa-arrow-left"></i> Equipment Library</a>
+                <span class="divider">/</span>
+                <span class="current-page">@Model.Name</span>
+            </div>
+
+            <div class="header-content">
+                <div class="header-text">
+                    <div class="title-wrapper">
+                        <h1 class="equipment-title">@Model.Name</h1>
+                        <div class="title-actions">
+                            <button class="icon-btn share-mini" onclick="shareEquipment()" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <button class="icon-btn print-mini" onclick="window.print()" title="Print">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="equipment-meta">
+                        <div class="meta-tag part-tag">
+                            <i class="fas fa-dumbbell"></i>
+                            <span>@Model.Part</span>
+                        </div>
+                        <div class="meta-tag difficulty-tag @Model.Difficulty.ToLower()">
+                            <i class="fas fa-signal"></i>
+                            <span>@Model.Difficulty Level</span>
+                        </div>
+                        <div class="meta-tag type-tag">
+                            <i class="fas fa-cogs"></i>
+                            <span>Strength Training</span>
+                        </div>
+                        <div class="meta-tag time-tag">
+                            <i class="fas fa-clock"></i>
+                            <span>15-20 min</span>
+                        </div>
+                    </div>
+
+                    <p class="equipment-description">@Model.ShortDesc</p>
+
+                    <div class="equipment-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">8-12</div>
+                            <div class="stat-label">Reps</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3-4</div>
+                            <div class="stat-label">Sets</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">60-90s</div>
+                            <div class="stat-label">Rest</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">@(Model.Part.ToString().ToLower() == "legs" ? "3-4" : "2-3")</div>
+                            <div class="stat-label">Days/Week</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="header-image">
+                    <img src="@Model.ImgUrl" alt="@Model.Name" class="equipment-main-image" />
+                    <div class="image-overlay">
+                        <button class="view-3d-btn">
+                            <i class="fas fa-cube"></i>
+                            3D View
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="header-content">
-            <div class="header-text">
-                <div class="title-wrapper">
-                    <h1 class="equipment-title">@Model.Name</h1>
-                    <div class="title-actions">
-                        <button class="icon-btn share-mini" onclick="shareEquipment()" title="Share">
-                            <i class="fas fa-share-alt"></i>
-                        </button>
-                        <button class="icon-btn print-mini" onclick="window.print()" title="Print">
-                            <i class="fas fa-print"></i>
-                        </button>
+        <!-- 主要内容网格 -->
+        <!-- 主要内容网格 -->
+        <div class="detail-grid" style="display:flex; gap:2rem; align-items:flex-start;">
+            <!-- 左侧：视频和图片 -->
+            <!-- 左侧：视频和图片 -->
+            <div class="detail-left" style="flex:1 1 50%;">
+                <!-- 主视频区域 -->
+                <div class="video-section glass-card">
+                    <div class="section-header">
+                        <h3 class="section-title">
+                            <i class="fas fa-play-circle"></i>
+                            Exercise Demonstration
+                        </h3>
+                        <div class="video-actions">
+                            <button class="action-btn slow-motion" onclick="toggleSlowMotion()" title="Slow Motion">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </button>
+                            <button class="action-btn fullscreen" onclick="toggleFullscreen()" title="Fullscreen">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="video-container">
+                        <div class="bilibili-video-container" id="videoContainer">
+                            <!-- B站视频嵌入 -->
+                            <iframe id="bilibiliPlayer"
+                                    src="https://player.bilibili.com/player.html?bvid=@recommendedVideoUrl&page=1&high_quality=1&autoplay=0"
+                                    scrolling="no"
+                                    border="0"
+                                    frameborder="no"
+                                    framespacing="0"
+                                    allowfullscreen="true">
+                            </iframe>
+                        </div>
+
+                        <div class="video-controls">
+                            <div class="video-info">
+                                <h4>Recommended Video</h4>
+                                <p>Professional demonstration of proper form and technique</p>
+                            </div>
+                            <div class="control-buttons">
+                                <button class="control-btn change-video" onclick="showVideoSelector()">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    Change Video
+                                </button>
+                                <button class="control-btn save-video" onclick="saveVideoPreference()">
+                                    <i class="fas fa-bookmark"></i>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 视频选择器（隐藏） -->
+                    <div class="video-selector" id="videoSelector" style="display: none;">
+                        <div class="selector-header">
+                            <h4><i class="fas fa-video"></i> Select Video Source</h4>
+                            <button class="close-selector" onclick="hideVideoSelector()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="video-options">
+                            <div class="video-option active" data-video="@recommendedVideoUrl">
+                                <div class="option-preview">
+                                    <img src="https://i0.hdslb.com/bfs/archive/bb5d71e8ef1e09fd3ed1d3d75a10e83867aa8a0a.jpg" alt="Recommended" />
+                                    <div class="play-overlay">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                                <div class="option-info">
+                                    <h5>Recommended Tutorial</h5>
+                                    <p>Professional form demonstration</p>
+                                    <span class="option-duration">5:24</span>
+                                </div>
+                            </div>
+
+                            <div class="video-option" data-video="BV1q54y1v7XG">
+                                <div class="option-preview">
+                                    <img src="https://i1.hdslb.com/bfs/archive/3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a.jpg" alt="Alternative" />
+                                    <div class="play-overlay">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                                <div class="option-info">
+                                    <h5>Beginner Friendly</h5>
+                                    <p>Step-by-step guide for beginners</p>
+                                    <span class="option-duration">7:15</span>
+                                </div>
+                            </div>
+
+                            <div class="video-option" data-video="BV1zL4y1B7Jk">
+                                <div class="option-preview">
+                                    <img src="https://i2.hdslb.com/bfs/archive/4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b.jpg" alt="Advanced" />
+                                    <div class="play-overlay">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                                <div class="option-info">
+                                    <h5>Advanced Techniques</h5>
+                                    <p>For experienced lifters</p>
+                                    <span class="option-duration">8:42</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="custom-video-input">
+                            <div class="input-group">
+                                <input type="text"
+                                       id="customVideoUrl"
+                                       placeholder="Paste Bilibili video URL (BV号 or av号)"
+                                       class="video-url-input" />
+                                <button class="load-btn" onclick="loadCustomVideo()">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    Load
+                                </button>
+                            </div>
+                            <small class="input-hint">
+                                Supported formats: BV1xx411c7mD or av170001
+                            </small>
+                        </div>
                     </div>
                 </div>
 
-                <div class="equipment-meta">
-                    <div class="meta-tag part-tag">
-                        <i class="fas fa-dumbbell"></i>
-                        <span>@Model.Part</span>
-                    </div>
-                    <div class="meta-tag difficulty-tag @Model.Difficulty.ToLower()">
-                        <i class="fas fa-signal"></i>
-                        <span>@Model.Difficulty Level</span>
-                    </div>
-                    <div class="meta-tag type-tag">
-                        <i class="fas fa-cogs"></i>
-                        <span>Strength Training</span>
-                    </div>
-                    <div class="meta-tag time-tag">
-                        <i class="fas fa-clock"></i>
-                        <span>15-20 min</span>
-                    </div>
-                </div>
 
-                <p class="equipment-description">@Model.ShortDesc</p>
 
-                <div class="equipment-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">8-12</div>
-                        <div class="stat-label">Reps</div>
+                <!-- 右侧：指导信息 -->
+                <!-- 右侧：指导信息 -->
+                <div class="detail-right" style="flex:1 1 50%;">
+                    <!-- 步骤指导 -->
+                    <div class="instructions-section glass-card">
+                        <div class="section-header">
+                            <h3 class="section-title">
+                                <i class="fas fa-list-ol"></i>
+                                Step-by-Step Guide
+                            </h3>
+                            <div class="timer-section">
+                                <div class="timer-display">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <span id="workoutTimer">00:00</span>
+                                </div>
+                                <button class="timer-btn" onclick="startWorkoutTimer()">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="instructions-content">
+                            <div class="phase-indicator">
+                                <div class="phase active" data-phase="setup">Setup</div>
+                                <div class="phase" data-phase="execution">Execution</div>
+                                <div class="phase" data-phase="safety">Safety</div>
+                            </div>
+
+                            <ol class="steps-list" id="stepsList">
+                                <!-- 步骤会根据部位动态生成 -->
+                            </ol>
+
+                            <div class="pro-tips">
+                                <h4><i class="fas fa-star"></i> Pro Tips</h4>
+                                <div class="tip-content">
+                                    <p><strong>Mind-Muscle Connection:</strong> Focus on feeling the target muscle work throughout the movement.</p>
+                                    <p><strong>Progressive Overload:</strong> Gradually increase weight or reps each week to continue progress.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-value">3-4</div>
-                        <div class="stat-label">Sets</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">60-90s</div>
-                        <div class="stat-label">Rest</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">@(Model.Part.ToString().ToLower() == "legs" ? "3-4" : "2-3")</div>
-                        <div class="stat-label">Days/Week</div>
+
+                    <!-- 训练建议 -->
+                    <div class="workout-tips glass-card">
+                        <h3 class="section-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Training Tips
+                        </h3>
+                        <div class="tips-grid">
+                            <div class="tip-item">
+                                <i class="fas fa-dumbbell"></i>
+                                <div class="tip-content">
+                                    <h4>Weight Selection</h4>
+                                    <p>Choose a weight that allows you to complete 8-15 reps with proper form</p>
+                                </div>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-wind"></i>
+                                <div class="tip-content">
+                                    <h4>Breathing</h4>
+                                    <p>Exhale during exertion, inhale during the return phase</p>
+                                </div>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-clock"></i>
+                                <div class="tip-content">
+                                    <h4>Tempo</h4>
+                                    <p>2 seconds lifting, 1 second pause, 3 seconds lowering</p>
+                                </div>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <div class="tip-content">
+                                    <h4>Safety</h4>
+                                    <p>Always use spotters for heavy lifts and check equipment before use</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="header-image">
-                <img src="@Model.ImgUrl" alt="@Model.Name" class="equipment-main-image" />
-                <div class="image-overlay">
-                    <button class="view-3d-btn">
-                        <i class="fas fa-cube"></i>
-                        3D View
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- 主要内容网格 -->
-    <div class="detail-grid">
-        <!-- 左侧：视频和图片 -->
-        <div class="detail-left">
-            <!-- 主视频区域 -->
-            <div class="video-section glass-card">
-                <div class="section-header">
-                    <h3 class="section-title">
-                        <i class="fas fa-play-circle"></i>
-                        Exercise Demonstration
-                    </h3>
-                    <div class="video-actions">
-                        <button class="action-btn slow-motion" onclick="toggleSlowMotion()" title="Slow Motion">
-                            <i class="fas fa-tachometer-alt"></i>
-                        </button>
-                        <button class="action-btn fullscreen" onclick="toggleFullscreen()" title="Fullscreen">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="video-container">
-                    <div class="bilibili-video-container" id="videoContainer">
-                        <!-- B站视频嵌入 -->
-                        <iframe id="bilibiliPlayer"
-                                src="https://player.bilibili.com/player.html?bvid=@recommendedVideoUrl&page=1&high_quality=1&autoplay=0"
-                                scrolling="no"
-                                border="0"
-                                frameborder="no"
-                                framespacing="0"
-                                allowfullscreen="true">
-                        </iframe>
-                    </div>
-
-                    <div class="video-controls">
-                        <div class="video-info">
-                            <h4>Recommended Video</h4>
-                            <p>Professional demonstration of proper form and technique</p>
-                        </div>
-                        <div class="control-buttons">
-                            <button class="control-btn change-video" onclick="showVideoSelector()">
-                                <i class="fas fa-exchange-alt"></i>
-                                Change Video
-                            </button>
-                            <button class="control-btn save-video" onclick="saveVideoPreference()">
-                                <i class="fas fa-bookmark"></i>
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 视频选择器（隐藏） -->
-                <div class="video-selector" id="videoSelector" style="display: none;">
-                    <div class="selector-header">
-                        <h4><i class="fas fa-video"></i> Select Video Source</h4>
-                        <button class="close-selector" onclick="hideVideoSelector()">
+            <!-- 模态框 -->
+            <div class="modal" id="videoModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Video Library</h3>
+                        <button class="modal-close" onclick="closeModal()">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-                    <div class="video-options">
-                        <div class="video-option active" data-video="@recommendedVideoUrl">
-                            <div class="option-preview">
-                                <img src="https://i0.hdslb.com/bfs/archive/bb5d71e8ef1e09fd3ed1d3d75a10e83867aa8a0a.jpg" alt="Recommended" />
-                                <div class="play-overlay">
-                                    <i class="fas fa-play"></i>
-                                </div>
-                            </div>
-                            <div class="option-info">
-                                <h5>Recommended Tutorial</h5>
-                                <p>Professional form demonstration</p>
-                                <span class="option-duration">5:24</span>
-                            </div>
-                        </div>
-
-                        <div class="video-option" data-video="BV1q54y1v7XG">
-                            <div class="option-preview">
-                                <img src="https://i1.hdslb.com/bfs/archive/3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a.jpg" alt="Alternative" />
-                                <div class="play-overlay">
-                                    <i class="fas fa-play"></i>
-                                </div>
-                            </div>
-                            <div class="option-info">
-                                <h5>Beginner Friendly</h5>
-                                <p>Step-by-step guide for beginners</p>
-                                <span class="option-duration">7:15</span>
-                            </div>
-                        </div>
-
-                        <div class="video-option" data-video="BV1zL4y1B7Jk">
-                            <div class="option-preview">
-                                <img src="https://i2.hdslb.com/bfs/archive/4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b.jpg" alt="Advanced" />
-                                <div class="play-overlay">
-                                    <i class="fas fa-play"></i>
-                                </div>
-                            </div>
-                            <div class="option-info">
-                                <h5>Advanced Techniques</h5>
-                                <p>For experienced lifters</p>
-                                <span class="option-duration">8:42</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="custom-video-input">
-                        <div class="input-group">
-                            <input type="text"
-                                   id="customVideoUrl"
-                                   placeholder="Paste Bilibili video URL (BV号 or av号)"
-                                   class="video-url-input" />
-                            <button class="load-btn" onclick="loadCustomVideo()">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                Load
-                            </button>
-                        </div>
-                        <small class="input-hint">
-                            Supported formats: BV1xx411c7mD or av170001
-                        </small>
+                    <div class="modal-body">
+                        <!-- 模态框内容 -->
                     </div>
                 </div>
             </div>
 
-            <!-- 多角度视图 -->
-            <div class="gallery-section glass-card">
-                <div class="section-header">
-                    <h3 class="section-title">
-                        <i class="fas fa-camera-retro"></i>
-                        Equipment Gallery
-                    </h3>
-                    <div class="gallery-nav">
-                        <button class="nav-btn prev" onclick="prevGallery()">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="nav-btn next" onclick="nextGallery()">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
 
-                <div class="gallery-container">
-                    <div class="gallery-viewport">
-                        <div class="gallery-slide active">
-                            <img src="@Model.ImgUrl" alt="@Model.Name - Front View" />
-                            <div class="slide-caption">
-                                <h4>Front View</h4>
-                                <p>Proper setup and positioning</p>
-                            </div>
-                        </div>
-                        <div class="gallery-slide">
-                            <img src="@Model.ImgUrl.Replace(".jpg", "-side.jpg")" alt="@Model.Name - Side View" />
-                            <div class="slide-caption">
-                                <h4>Side View</h4>
-                                <p>Body alignment and posture</p>
-                            </div>
-                        </div>
-                        <div class="gallery-slide">
-                            <img src="@Model.ImgUrl.Replace(".jpg", "-use.jpg")" alt="@Model.Name - User View" />
-                            <div class="slide-caption">
-                                <h4>User Position</h4>
-                                <p>Correct grip and stance</p>
-                            </div>
-                        </div>
-                        <div class="gallery-slide">
-                            <img src="@Model.ImgUrl.Replace(".jpg", "-close.jpg")" alt="@Model.Name - Detail View" />
-                            <div class="slide-caption">
-                                <h4>Detail View</h4>
-                                <p>Equipment adjustments</p>
-                            </div>
-                        </div>
-                    </div>
+            <script src="~/script/equipment-detail.js"></script>
 
-                    <div class="gallery-dots">
-                        <span class="dot active" onclick="goToSlide(0)"></span>
-                        <span class="dot" onclick="goToSlide(1)"></span>
-                        <span class="dot" onclick="goToSlide(2)"></span>
-                        <span class="dot" onclick="goToSlide(3)"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- 右侧：指导信息 -->
-        <div class="detail-right">
-            <!-- 步骤指导 -->
-            <div class="instructions-section glass-card">
-                <div class="section-header">
-                    <h3 class="section-title">
-                        <i class="fas fa-list-ol"></i>
-                        Step-by-Step Guide
-                    </h3>
-                    <div class="timer-section">
-                        <div class="timer-display">
-                            <i class="fas fa-stopwatch"></i>
-                            <span id="workoutTimer">00:00</span>
-                        </div>
-                        <button class="timer-btn" onclick="startWorkoutTimer()">
-                            <i class="fas fa-play"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="instructions-content">
-                    <div class="phase-indicator">
-                        <div class="phase active" data-phase="setup">Setup</div>
-                        <div class="phase" data-phase="execution">Execution</div>
-                        <div class="phase" data-phase="safety">Safety</div>
-                    </div>
-
-                    <ol class="steps-list" id="stepsList">
-                        <!-- 步骤会根据部位动态生成 -->
-                    </ol>
-
-                    <div class="pro-tips">
-                        <h4><i class="fas fa-star"></i> Pro Tips</h4>
-                        <div class="tip-content">
-                            <p><strong>Mind-Muscle Connection:</strong> Focus on feeling the target muscle work throughout the movement.</p>
-                            <p><strong>Progressive Overload:</strong> Gradually increase weight or reps each week to continue progress.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 训练建议 -->
-            <div class="workout-tips glass-card">
-                <h3 class="section-title">
-                    <i class="fas fa-lightbulb"></i>
-                    Training Tips
-                </h3>
-                <div class="tips-grid">
-                    <div class="tip-item">
-                        <i class="fas fa-dumbbell"></i>
-                        <div class="tip-content">
-                            <h4>Weight Selection</h4>
-                            <p>Choose a weight that allows you to complete 8-15 reps with proper form</p>
-                        </div>
-                    </div>
-                    <div class="tip-item">
-                        <i class="fas fa-wind"></i>
-                        <div class="tip-content">
-                            <h4>Breathing</h4>
-                            <p>Exhale during exertion, inhale during the return phase</p>
-                        </div>
-                    </div>
-                    <div class="tip-item">
-                        <i class="fas fa-clock"></i>
-                        <div class="tip-content">
-                            <h4>Tempo</h4>
-                            <p>2 seconds lifting, 1 second pause, 3 seconds lowering</p>
-                        </div>
-                    </div>
-                    <div class="tip-item">
-                        <i class="fas fa-shield-alt"></i>
-                        <div class="tip-content">
-                            <h4>Safety</h4>
-                            <p>Always use spotters for heavy lifts and check equipment before use</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 底部CTA -->
-    <div class="detail-footer glass-card">
-        <div class="footer-content">
-            <div class="footer-text">
-                <h3>Ready to Train?</h3>
-                <p>Save this guide to your workout plan or share with your training partner.</p>
-            </div>
-            <div class="footer-actions">
-                <button class="action-btn primary save-plan" onclick="saveToWorkoutPlan()">
-                    <i class="fas fa-plus-circle"></i>
-                    Add to Workout Plan
-                </button>
-                <button class="action-btn secondary download" onclick="downloadGuide()">
-                    <i class="fas fa-download"></i>
-                    Download PDF
-                </button>
-                <button class="action-btn outline share" onclick="shareEquipment()">
-                    <i class="fas fa-share-alt"></i>
-                    Share Guide
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- 模态框 -->
-<div class="modal" id="videoModal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Video Library</h3>
-            <button class="modal-close" onclick="closeModal()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <!-- 模态框内容 -->
-        </div>
-    </div>
-</div>
-
-<style>
-    /* === 全局样式 === */
-    :root {
-        --primary-color: #0071e3;
-        --primary-dark: #0056b3;
-        --secondary-color: #34c759;
-        --accent-color: #ff9500;
-        --danger-color: #ff3b30;
-        --text-primary: #1d1d1f;
-        --text-secondary: #86868b;
-        --text-tertiary: #c7c7c7;
-        --bg-primary: #f5f5f7;
-        --bg-secondary: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.8);
-        --border-color: rgba(0, 0, 0, 0.1);
-        --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.15);
-        --gradient-primary: linear-gradient(135deg, #0071e3, #00b2ff);
-        --gradient-secondary: linear-gradient(135deg, #34c759, #00d4aa);
-        --gradient-accent: linear-gradient(135deg, #ff9500, #ff6b00);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        background: var(--bg-primary);
-        color: var(--text-primary);
-        line-height: 1.6;
-    }
-
-    .equipment-detail {
-        max-width: 1440px;
-        margin: 0 auto;
-        padding: 32px 24px;
-        min-height: 100vh;
-    }
-
-    /* === 玻璃卡片效果 === */
-    .glass-card {
-        background: var(--bg-glass);
-        backdrop-filter: blur(40px);
-        -webkit-backdrop-filter: blur(40px);
-        border-radius: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        box-shadow: var(--shadow-md);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        padding: 32px;
-        position: relative;
-        overflow: hidden;
-    }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-        }
-
-        .glass-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.8);
-        }
-
-    /* === 头部样式 === */
-    .detail-header {
-        margin-bottom: 40px;
-        padding-bottom: 0;
-    }
-
-    .breadcrumb {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text-secondary);
-        margin-bottom: 32px;
-    }
-
-        .breadcrumb a {
-            color: var(--primary-color);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            padding: 8px 16px;
-            border-radius: 12px;
-            background: rgba(0, 113, 227, 0.1);
-        }
-
-            .breadcrumb a:hover {
-                background: rgba(0, 113, 227, 0.2);
-                transform: translateX(-4px);
-            }
-
-    .divider {
-        color: var(--text-tertiary);
-    }
-
-    .current-page {
-        font-weight: 600;
-        color: var(--text-primary);
-    }
-
-    .header-content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 48px;
-        align-items: center;
-    }
-
-    .header-text {
-        position: relative;
-    }
-
-    .title-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 24px;
-    }
-
-    .equipment-title {
-        font-size: 56px;
-        font-weight: 800;
-        line-height: 1.1;
-        margin: 0;
-        background: linear-gradient(135deg, var(--text-primary), var(--primary-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .title-actions {
-        display: flex;
-        gap: 8px;
-    }
-
-    .icon-btn {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        border: 1px solid var(--border-color);
-        background: var(--bg-secondary);
-        color: var(--text-secondary);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-    }
-
-        .icon-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-    .equipment-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 32px;
-    }
-
-    .meta-tag {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 20px;
-        border-radius: 100px;
-        font-size: 14px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border: 2px solid transparent;
-    }
-
-    .part-tag {
-        background: var(--gradient-primary);
-        color: white;
-    }
-
-    .difficulty-tag {
-        background: var(--gradient-secondary);
-        color: white;
-    }
-
-        .difficulty-tag.beginner {
-            background: linear-gradient(135deg, #34c759, #00d4aa);
-        }
-
-        .difficulty-tag.intermediate {
-            background: linear-gradient(135deg, #ff9500, #ffd600);
-        }
-
-        .difficulty-tag.advanced {
-            background: linear-gradient(135deg, #ff3b30, #ff9500);
-        }
-
-    .type-tag {
-        background: var(--gradient-accent);
-        color: white;
-    }
-
-    .time-tag {
-        background: rgba(0, 0, 0, 0.05);
-        color: var(--text-primary);
-    }
-
-    .equipment-description {
-        font-size: 18px;
-        line-height: 1.8;
-        color: var(--text-secondary);
-        margin-bottom: 32px;
-        max-width: 600px;
-    }
-
-    .equipment-stats {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-        margin-bottom: 32px;
-    }
-
-    .stat-item {
-        text-align: center;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .stat-value {
-        font-size: 32px;
-        font-weight: 800;
-        color: var(--primary-color);
-        margin-bottom: 4px;
-    }
-
-    .stat-label {
-        font-size: 12px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--text-secondary);
-    }
-
-    .header-image {
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: var(--shadow-lg);
-    }
-
-    .equipment-main-image {
-        width: 100%;
-        height: 400px;
-        object-fit: cover;
-        display: block;
-    }
-
-    .image-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-        padding: 24px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .view-3d-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 24px;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 100px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-        .view-3d-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 113, 227, 0.3);
-        }
-
-    /* === 网格布局 === */
-    .detail-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        margin-bottom: 40px;
-    }
-
-    /* === 视频区域 === */
-    .video-section {
-        margin-bottom: 32px;
-    }
-
-    .section-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 24px;
-    }
-
-    .section-title {
-        font-size: 24px;
-        font-weight: 700;
-        color: var(--text-primary);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .video-actions {
-        display: flex;
-        gap: 8px;
-    }
-
-    .action-btn {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        border: 1px solid var(--border-color);
-        background: var(--bg-secondary);
-        color: var(--text-secondary);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-    }
-
-        .action-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-    .video-container {
-        position: relative;
-        border-radius: 16px;
-        overflow: hidden;
-    }
-
-    .bilibili-video-container {
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 56.25%;
-        background: #000;
-        border-radius: 16px;
-        overflow: hidden;
-    }
-
-        .bilibili-video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-    .video-controls {
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.9);
-        border-top: 1px solid var(--border-color);
-    }
-
-    .video-info h4 {
-        margin-bottom: 4px;
-        font-size: 18px;
-        font-weight: 600;
-    }
-
-    .video-info p {
-        color: var(--text-secondary);
-        font-size: 14px;
-        margin-bottom: 16px;
-    }
-
-    .control-buttons {
-        display: flex;
-        gap: 12px;
-    }
-
-    .control-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 20px;
-        border-radius: 12px;
-        border: none;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .change-video {
-        background: var(--bg-secondary);
-        color: var(--text-primary);
-        border: 1px solid var(--border-color);
-    }
-
-        .change-video:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-    .save-video {
-        background: var(--secondary-color);
-        color: white;
-    }
-
-        .save-video:hover {
-            background: #30a14e;
-            transform: translateY(-2px);
-        }
-
-    /* === 视频选择器 === */
-    .video-selector {
-        margin-top: 24px;
-        padding: 24px;
-        background: var(--bg-secondary);
-        border-radius: 16px;
-        border: 1px solid var(--border-color);
-    }
-
-    .selector-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-        .selector-header h4 {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-    .close-selector {
-        background: none;
-        border: none;
-        color: var(--text-secondary);
-        cursor: pointer;
-        font-size: 18px;
-        padding: 8px;
-        border-radius: 8px;
-    }
-
-        .close-selector:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-    .video-options {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 16px;
-        margin-bottom: 20px;
-    }
-
-    .video-option {
-        border: 2px solid transparent;
-        border-radius: 12px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-        .video-option.active {
-            border-color: var(--primary-color);
-            box-shadow: 0 8px 24px rgba(0, 113, 227, 0.2);
-        }
-
-        .video-option:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-
-    .option-preview {
-        position: relative;
-        height: 140px;
-        overflow: hidden;
-    }
-
-        .option-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-    .play-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 24px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .video-option:hover .play-overlay {
-        opacity: 1;
-    }
-
-    .option-info {
-        padding: 16px;
-        background: var(--bg-secondary);
-    }
-
-        .option-info h5 {
-            margin-bottom: 4px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .option-info p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-    .option-duration {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--primary-color);
-        padding: 2px 8px;
-        background: rgba(0, 113, 227, 0.1);
-        border-radius: 4px;
-    }
-
-    .custom-video-input {
-        margin-top: 20px;
-    }
-
-    .input-group {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 8px;
-    }
-
-    .video-url-input {
-        flex: 1;
-        padding: 12px 16px;
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        font-size: 14px;
-    }
-
-        .video-url-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
-        }
-
-    .load-btn {
-        padding: 12px 24px;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-    }
-
-        .load-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-    .input-hint {
-        display: block;
-        color: var(--text-tertiary);
-        font-size: 12px;
-        margin-top: 4px;
-    }
-
-    /* === 画廊样式 === */
-    .gallery-section {
-        margin-bottom: 32px;
-    }
-
-    .gallery-nav {
-        display: flex;
-        gap: 8px;
-    }
-
-    .nav-btn {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        border: 1px solid var(--border-color);
-        background: var(--bg-secondary);
-        color: var(--text-secondary);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-    }
-
-        .nav-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-    .gallery-container {
-        position: relative;
-        border-radius: 16px;
-        overflow: hidden;
-    }
-
-    .gallery-viewport {
-        display: flex;
-        overflow: hidden;
-        border-radius: 16px;
-    }
-
-    .gallery-slide {
-        min-width: 100%;
-        position: relative;
-        display: none;
-    }
-
-        .gallery-slide.active {
-            display: block;
-        }
-
-        .gallery-slide img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-        }
-
-    .slide-caption {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-        padding: 24px;
-        color: white;
-    }
-
-        .slide-caption h4 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .slide-caption p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-    .gallery-dots {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 16px;
-    }
-
-    .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--text-tertiary);
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-        .dot.active {
-            background: var(--primary-color);
-            transform: scale(1.2);
-        }
-
-    /* === 步骤指导 === */
-    .instructions-section {
-        margin-bottom: 32px;
-    }
-
-    .timer-section {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .timer-display {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        background: rgba(52, 199, 89, 0.1);
-        border-radius: 12px;
-        color: var(--secondary-color);
-        font-weight: 600;
-    }
-
-    .timer-btn {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        border: none;
-        background: var(--secondary-color);
-        color: white;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-    }
-
-        .timer-btn:hover {
-            background: #30a14e;
-            transform: translateY(-2px);
-        }
-
-    .instructions-content {
-        padding-top: 20px;
-    }
-
-    .phase-indicator {
-        display: flex;
-        gap: 1px;
-        background: var(--border-color);
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: 24px;
-    }
-
-    .phase {
-        flex: 1;
-        text-align: center;
-        padding: 12px;
-        background: var(--bg-secondary);
-        font-weight: 600;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-        .phase.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-    .steps-list {
-        list-style: none;
-        padding: 0;
-        margin-bottom: 24px;
-    }
-
-    .step-item {
-        display: flex;
-        gap: 16px;
-        padding: 20px;
-        margin-bottom: 12px;
-        background: var(--bg-secondary);
-        border-radius: 16px;
-        border: 1px solid var(--border-color);
-        transition: all 0.3s ease;
-    }
-
-        .step-item:hover {
-            transform: translateX(4px);
-            border-color: var(--primary-color);
-        }
-
-    .step-number {
-        width: 36px;
-        height: 36px;
-        background: var(--primary-color);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        flex-shrink: 0;
-    }
-
-    .step-content {
-        flex: 1;
-    }
-
-        .step-content p {
-            margin: 0;
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
-
-    .step-tip {
-        display: block;
-        margin-top: 8px;
-        padding: 8px 12px;
-        background: rgba(255, 149, 0, 0.1);
-        border-left: 3px solid var(--accent-color);
-        border-radius: 4px;
-        font-size: 14px;
-        color: var(--accent-color);
-    }
-
-    .pro-tips {
-        padding: 20px;
-        background: linear-gradient(135deg, rgba(0, 113, 227, 0.05), rgba(52, 199, 89, 0.05));
-        border-radius: 16px;
-        border: 1px solid rgba(0, 113, 227, 0.1);
-    }
-
-        .pro-tips h4 {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            color: var(--primary-color);
-        }
-
-    .tip-content p {
-        margin-bottom: 8px;
-        color: var(--text-secondary);
-    }
-
-    .tip-content strong {
-        color: var(--text-primary);
-    }
-
-    /* === 训练建议 === */
-    .workout-tips {
-        margin-bottom: 32px;
-    }
-
-    .tips-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-
-    .tip-item {
-        display: flex;
-        gap: 12px;
-        align-items: flex-start;
-    }
-
-        .tip-item i {
-            color: var(--primary-color);
-            font-size: 18px;
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-
-    .tip-content h4 {
-        margin: 0 0 4px 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--text-primary);
-    }
-
-    .tip-content p {
-        margin: 0;
-        font-size: 14px;
-        color: var(--text-secondary);
-        line-height: 1.5;
-    }
-
-    /* === 底部CTA === */
-    .detail-footer {
-        margin-top: 40px;
-    }
-
-    .footer-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .footer-text h3 {
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 8px;
-    }
-
-    .footer-text p {
-        color: var(--text-secondary);
-        max-width: 400px;
-    }
-
-    .footer-actions {
-        display: flex;
-        gap: 12px;
-    }
-
-    .action-btn {
-        padding: 16px 32px;
-        border-radius: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-        border: none;
-    }
-
-        .action-btn.primary {
-            background: var(--primary-color);
-            color: white;
-        }
-
-            .action-btn.primary:hover {
-                background: var(--primary-dark);
-                transform: translateY(-4px);
-                box-shadow: 0 12px 32px rgba(0, 113, 227, 0.3);
-            }
-
-        .action-btn.secondary {
-            background: var(--secondary-color);
-            color: white;
-        }
-
-            .action-btn.secondary:hover {
-                background: #30a14e;
-                transform: translateY(-4px);
-                box-shadow: 0 12px 32px rgba(52, 199, 89, 0.3);
-            }
-
-        .action-btn.outline {
-            background: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-        }
-
-            .action-btn.outline:hover {
-                background: var(--primary-color);
-                color: white;
-                transform: translateY(-4px);
-            }
-
-    /* === 模态框 === */
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(20px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    }
-
-    .modal-content {
-        background: var(--bg-secondary);
-        border-radius: 24px;
-        width: 90%;
-        max-width: 800px;
-        max-height: 90vh;
-        overflow: auto;
-        box-shadow: var(--shadow-lg);
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 24px;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .modal-close {
-        background: none;
-        border: none;
-        color: var(--text-secondary);
-        cursor: pointer;
-        font-size: 20px;
-        padding: 8px;
-        border-radius: 8px;
-    }
-
-        .modal-close:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-    /* === 响应式设计 === */
-    @@media (max-width: 1200px) {
-        .equipment-title {
-            font-size: 48px;
-        }
-
-        .header-content {
-            gap: 32px;
-        }
-    }
-
-    @@media (max-width: 992px) {
-        .detail-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .header-content {
-            grid-template-columns: 1fr;
-            gap: 40px;
-        }
-
-        .equipment-stats {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .tips-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .footer-content {
-            flex-direction: column;
-            gap: 24px;
-            text-align: center;
-        }
-    }
-
-    @@media (max-width: 768px) {
-        .equipment-detail {
-            padding: 24px 16px;
-        }
-
-        .glass-card {
-            padding: 24px;
-        }
-
-        .equipment-title {
-            font-size: 36px;
-        }
-
-        .equipment-meta {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .meta-tag {
-            width: 100%;
-        }
-
-        .title-actions {
-            display: none;
-        }
-
-        .video-options {
-            grid-template-columns: 1fr;
-        }
-
-        .action-btn {
-            width: 100%;
-            justify-content: center;
-        }
-    }
-
-    @@media (max-width: 576px) {
-        .equipment-title {
-            font-size: 32px;
-        }
-
-        .section-title {
-            font-size: 20px;
-        }
-
-        .control-buttons {
-            flex-direction: column;
-        }
-
-        .footer-actions {
-            flex-direction: column;
-            width: 100%;
-        }
-    }
-</style>
-
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Equipment Detail Page Loaded');
-
-        // 初始化步骤列表
-        initStepsList();
-
-        // 初始化画廊
-        initGallery();
-
-        // 加载保存的视频偏好
-        loadVideoPreference();
-    });
-
-    // 根据部位初始化步骤
-    function initStepsList() {
-        const part = '@Model.Part.ToString().ToLower()';
-        const stepsList = document.getElementById('stepsList');
-
-        const steps = {
-            'chest': [
-                { text: "Adjust the seat height so handles align with mid-chest level. Ensure back pad provides full support.", tip: "Proper alignment reduces shoulder strain" },
-                { text: "Sit firmly with back against pad, feet flat on floor. Grip handles with palms facing forward.", tip: "Maintain neutral spine throughout" },
-                { text: "Push handles forward until arms are fully extended. Exhale during exertion.", tip: "Don't lock elbows at extension" },
-                { text: "Squeeze chest muscles at peak contraction for 1-2 seconds. Focus on mind-muscle connection.", tip: "Visualize bringing elbows together" },
-                { text: "Slowly return to starting position over 3-4 seconds. Keep tension on chest.", tip: "Control is key for muscle growth" }
-            ],
-            'legs': [
-                { text: "Adjust machine to fit your body. Set seat depth, back pad position, and foot placement.", tip: "Knees should align with pivot point" },
-                { text: "Position yourself with proper back support. Feet shoulder-width apart, toes slightly out.", tip: "Keep heels flat on platform" },
-                { text: "Execute movement through full range of motion. Lower until knees form 90-degree angle.", tip: "Don't bounce at bottom position" },
-                { text: "Focus on contracting quadriceps and glutes. Push through heels, not toes.", tip: "Squeeze glutes at top" },
-                { text: "Maintain controlled tempo: 2 seconds up, 1 second pause, 3 seconds down.", tip: "Time under tension builds muscle" }
-            ],
-            'back': [
-                { text: "Adjust seat and pad position to align with chest. Feet flat on floor, slight bend in knees.", tip: "Proper height prevents shoulder impingement" },
-                { text: "Grip handles with palms facing each other or down, depending on attachment. Sit upright.", tip: "Use straps for heavier weights" },
-                { text: "Pull handles toward chest while squeezing shoulder blades together. Keep chest up.", tip: "Initiate with back, not arms" },
-                { text: "Hold for a moment at peak contraction. Feel the squeeze between shoulder blades.", tip: "Imagine holding a pencil between shoulder blades" },
-                { text: "Slowly return to starting position, maintaining control. Stretch at full extension.", tip: "Control the eccentric for maximum growth" }
-            ],
-            'arms': [
-                { text: "Set cable at appropriate height for exercise. Adjust weight stack to challenging but manageable.", tip: "Lighter weight with perfect form is better" },
-                { text: "Stand with proper posture, keeping elbows close to body. Maintain slight bend in knees.", tip: "Anchor elbows to prevent swinging" },
-                { text: "Execute movement with controlled form. Isolate biceps or triceps with strict technique.", tip: "Stop short of full lockout" },
-                { text: "Squeeze target muscles at peak of contraction. Hold for maximum contraction.", tip: "Peak contraction increases muscle activation" },
-                { text: "Return slowly to maintain tension on muscles. 3-4 seconds on negative phase.", tip: "Negative reps cause most muscle damage" }
-            ],
-            'shoulders': [
-                { text: "Adjust seat height so handles align with shoulder height. Sit with back supported.", tip: "Use mirrors to check alignment" },
-                { text: "Grip handles with palms facing forward. Keep wrists straight throughout movement.", tip: "Don't let wrists bend backward" },
-                { text: "Press upward until arms are fully extended overhead. Keep slight bend in elbows at top.", tip: "Don't lock out joints" },
-                { text: "Lower weight with control back to starting position. 3-second negative phase.", tip: "Control the descent" },
-                { text: "Keep core engaged throughout movement to protect lower back.", tip: "Brace your core as if preparing for a punch" }
-            ]
-        };
-
-        const defaultSteps = [
-            { text: "Set up equipment according to your body measurements and flexibility.", tip: "Proper setup prevents injury" },
-            { text: "Assume correct starting position with proper spinal alignment and joint angles.", tip: "Form before weight" },
-            { text: "Execute movement through full natural range of motion. Don't force beyond comfort.", tip: "Quality over quantity" },
-            { text: "Focus on contracting target muscle group. Mind-muscle connection is crucial.", tip: "Think about the muscle working" },
-            { text: "Return to starting position with controlled tempo. Maintain tension throughout.", tip: "Never let momentum do the work" }
-        ];
-
-        const selectedSteps = steps[part] || defaultSteps;
-
-        stepsList.innerHTML = '';
-        selectedSteps.forEach((step, index) => {
-            const stepItem = document.createElement('li');
-            stepItem.className = 'step-item';
-            stepItem.innerHTML = `
-                <div class="step-number">${index + 1}</div>
-                <div class="step-content">
-                    <p>${step.text}</p>
-                    ${step.tip ? `<span class="step-tip">💡 ${step.tip}</span>` : ''}
-                </div>
-            `;
-            stepsList.appendChild(stepItem);
-        });
-    }
-
-    // 画廊功能
-    let currentSlide = 0;
-    let slideInterval;
-
-    function initGallery() {
-        const slides = document.querySelectorAll('.gallery-slide');
-        const dots = document.querySelectorAll('.dot');
-
-        if (slides.length > 0) {
-            showSlide(0);
-            startSlideShow();
-        }
-    }
-
-    function showSlide(index) {
-        const slides = document.querySelectorAll('.gallery-slide');
-        const dots = document.querySelectorAll('.dot');
-
-        if (index >= slides.length) index = 0;
-        if (index < 0) index = slides.length - 1;
-
-        slides.forEach(slide => slide.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
-
-        slides[index].classList.add('active');
-        dots[index].classList.add('active');
-        currentSlide = index;
-    }
-
-    function startSlideShow() {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(() => {
-            nextGallery();
-        }, 5000);
-    }
-
-    function prevGallery() {
-        showSlide(currentSlide - 1);
-        startSlideShow();
-    }
-
-    function nextGallery() {
-        showSlide(currentSlide + 1);
-        startSlideShow();
-    }
-
-    function goToSlide(index) {
-        showSlide(index);
-        startSlideShow();
-    }
-
-    // 视频功能
-    function showVideoSelector() {
-        const selector = document.getElementById('videoSelector');
-        selector.style.display = 'block';
-    }
-
-    function hideVideoSelector() {
-        const selector = document.getElementById('videoSelector');
-        selector.style.display = 'none';
-    }
-
-    function changeVideo(videoId) {
-        const iframe = document.getElementById('bilibiliPlayer');
-        iframe.src = `https://player.bilibili.com/player.html?bvid=${videoId}&page=1&high_quality=1&autoplay=0`;
-
-        // 更新选中的视频
-        document.querySelectorAll('.video-option').forEach(option => {
-            option.classList.remove('active');
-            if (option.dataset.video === videoId) {
-                option.classList.add('active');
-            }
-        });
-
-        hideVideoSelector();
-        showNotification('Video changed successfully');
-
-        // 保存偏好
-        saveVideoPreference(videoId);
-    }
-
-    function loadCustomVideo() {
-        const input = document.getElementById('customVideoUrl');
-        const url = input.value.trim();
-
-        if (!url) {
-            showNotification('Please enter a video URL', 'error');
-            return;
-        }
-
-        // 提取视频ID
-        let videoId = extractBilibiliVideoId(url);
-
-        if (videoId) {
-            changeVideo(videoId);
-            input.value = '';
-        } else {
-            showNotification('Invalid Bilibili video URL', 'error');
-        }
-    }
-
-    function extractBilibiliVideoId(url) {
-        // 支持多种B站视频链接格式
-        const patterns = [
-            /[Bb][Vv]([a-zA-Z0-9]{10})/,
-            /av(\d+)/i,
-            /video\/([a-zA-Z0-9]+)/,
-            /b23\.tv\/[a-zA-Z0-9]+\/?.*[Bb][Vv]([a-zA-Z0-9]{10})/
-        ];
-
-        for (const pattern of patterns) {
-            const match = url.match(pattern);
-            if (match) {
-                return match[0];
-            }
-        }
-
-        return null;
-    }
-
-    function saveVideoPreference(videoId = null) {
-        const equipmentId = @Model.Id;
-        const currentVideoId = videoId || document.getElementById('bilibiliPlayer').src.match(/bvid=([a-zA-Z0-9]+)/)[1];
-
-        // 这里可以添加保存到后端的逻辑
-        localStorage.setItem(`video_pref_${equipmentId}`, currentVideoId);
-        showNotification('Video preference saved');
-    }
-
-    function loadVideoPreference() {
-        const equipmentId = @Model.Id;
-        const savedVideoId = localStorage.getItem(`video_pref_${equipmentId}`);
-
-        if (savedVideoId && savedVideoId !== '@recommendedVideoUrl') {
-            changeVideo(savedVideoId);
-        }
-    }
-
-    // 视频控制功能
-    function toggleSlowMotion() {
-        const iframe = document.getElementById('bilibiliPlayer');
-        // B站iframe API可能需要额外配置
-        showNotification('Slow motion feature requires B站播放器API');
-    }
-
-    function toggleFullscreen() {
-        const container = document.querySelector('.bilibili-video-container');
-
-        if (!document.fullscreenElement) {
-            if (container.requestFullscreen) {
-                container.requestFullscreen();
-            } else if (container.webkitRequestFullscreen) {
-                container.webkitRequestFullscreen();
-            } else if (container.msRequestFullscreen) {
-                container.msRequestFullscreen();
-            }
-        } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-        }
-    }
-
-    // 训练计时器
-    let workoutTimer = null;
-    let workoutSeconds = 0;
-
-    function startWorkoutTimer() {
-        const timerBtn = document.querySelector('.timer-btn i');
-        const timerDisplay = document.getElementById('workoutTimer');
-
-        if (workoutTimer) {
-            // 停止计时器
-            clearInterval(workoutTimer);
-            workoutTimer = null;
-            timerBtn.className = 'fas fa-play';
-            showNotification('Workout timer stopped');
-        } else {
-            // 开始计时器
-            workoutTimer = setInterval(() => {
-                workoutSeconds++;
-                const minutes = Math.floor(workoutSeconds / 60);
-                const seconds = workoutSeconds % 60;
-                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-                // 每5分钟提醒
-                if (workoutSeconds % 300 === 0) {
-                    showNotification(`Great work! You've been training for ${minutes} minutes.`);
-                }
-            }, 1000);
-            timerBtn.className = 'fas fa-pause';
-            showNotification('Workout timer started');
-        }
-    }
-
-    // 保存到训练计划
-    function saveToWorkoutPlan() {
-        const equipmentId = @Model.Id;
-        const equipmentName = '@Model.Name';
-
-        // 这里可以添加AJAX调用保存到后端
-        const savedWorkouts = JSON.parse(localStorage.getItem('saved_workouts') || '[]');
-        if (!savedWorkouts.includes(equipmentId)) {
-            savedWorkouts.push(equipmentId);
-            localStorage.setItem('saved_workouts', JSON.stringify(savedWorkouts));
-        }
-
-        showNotification(`"${equipmentName}" added to your workout plan`);
-    }
-
-    // 下载PDF
-    function downloadGuide() {
-        showNotification('Generating PDF guide... (This would generate a PDF in production)');
-        // 在实际项目中，这里会调用后端API生成PDF
-    }
-
-    // 分享功能
-    function shareEquipment() {
-        const equipmentName = '@Model.Name';
-        const pageUrl = window.location.href;
-
-        if (navigator.share) {
-            navigator.share({
-                title: equipmentName,
-                text: `Check out this ${equipmentName} exercise guide`,
-                url: pageUrl
-            });
-        } else {
-            // 复制到剪贴板
-            navigator.clipboard.writeText(pageUrl).then(() => {
-                showNotification('Link copied to clipboard!');
-            });
-        }
-    }
-
-    // 模态框控制
-    function openModal(content) {
-        const modal = document.getElementById('videoModal');
-        const modalBody = modal.querySelector('.modal-body');
-
-        modalBody.innerHTML = content;
-        modal.style.display = 'flex';
-    }
-
-    function closeModal() {
-        const modal = document.getElementById('videoModal');
-        modal.style.display = 'none';
-    }
-
-    // 通知系统
-    function showNotification(message, type = 'success') {
-        // 移除现有通知
-        const existingNotification = document.querySelector('.notification');
-        if (existingNotification) {
-            existingNotification.remove();
-        }
-
-        // 创建新通知
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.innerHTML = `
-            <div class="notification-content">
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-                <span>${message}</span>
-            </div>
-        `;
-
-        // 添加样式
-        notification.style.cssText = `
-            position: fixed;
-            top: 32px;
-            right: 32px;
-            background: ${type === 'success' ? 'var(--secondary-color)' : 'var(--danger-color)'};
-            color: white;
-            padding: 16px 24px;
-            border-radius: 16px;
-            z-index: 10000;
-            font-weight: 500;
-            box-shadow: var(--shadow-lg);
-            animation: slideIn 0.3s ease;
-            max-width: 400px;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        `;
-
-        document.body.appendChild(notification);
-
-        // 3秒后移除
-        setTimeout(() => {
-            notification.style.animation = 'slideOut 0.3s ease';
-            setTimeout(() => notification.remove(), 300);
-        }, 3000);
-    }
-
-
-
-    // 视频选项点击事件
-    document.querySelectorAll('.video-option').forEach(option => {
-        option.addEventListener('click', () => {
-            const videoId = option.dataset.video;
-            changeVideo(videoId);
-        });
-    });
-
-    // 相选项点击事件
-    document.querySelectorAll('.phase').forEach(phase => {
-        phase.addEventListener('click', () => {
-            document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
-            phase.classList.add('active');
-
-            // 根据阶段筛选步骤
-            const phaseType = phase.dataset.phase;
-            filterStepsByPhase(phaseType);
-        });
-    });
-
-    function filterStepsByPhase(phase) {
-        // 这里可以根据阶段显示不同的步骤
-        // 在实际项目中，可以预先定义不同阶段的步骤
-        console.log(`Filtering steps by phase: ${phase}`);
-
-    }
-  
-// 保存到训练计划
-function saveToWorkoutPlan() {
-    const equipmentId = @Model.Id;
-    const equipmentName = '@Model.Name';
-
-    fetch('@Url.Action("AddToWorkoutPlan", "Workout")', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
-        },
-        body: JSON.stringify({
-            equipmentId: equipmentId,
-            equipmentName: equipmentName
-        })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('Network response was not ok.');
-    })
-    .then(data => {
-        if (data.success) {
-            showNotification('"' + equipmentName + '" has been added to your workout plan!', 'success');
-
-            // 更新爱心状态
-            updateFavoriteStatus(equipmentId, true);
-        } else {
-            showNotification(data.message || 'Failed to add to plan', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showNotification('Failed to save. Please try again.', 'error');
-    });
-}
-
-// 更新爱心状态
-function updateFavoriteStatus(equipmentId, isFavorite) {
-    // 在详细页更新爱心
-    const heartBtn = document.querySelector('.btn-fav');
-    if (heartBtn) {
-        heartBtn.innerHTML = isFavorite ?
-            '<i class="fas fa-heart"></i> In My Plan' :
-            '<i class="far fa-heart"></i> Add to Plan';
-        heartBtn.style.background = isFavorite ?
-            'linear-gradient(135deg, #e91e63, #c2185b)' :
-            'linear-gradient(135deg, #007aff, #0056d6)';
-    }
-
-    // 同时在列表页更新（如果用户返回列表页）
-    updateListFavoriteStatus(equipmentId, isFavorite);
-}
-
-// 更新列表页爱心状态
-function updateListFavoriteStatus(equipmentId, isFavorite) {
-    const listHearts = document.querySelectorAll(`.heart[data-id="${equipmentId}"]`);
-    listHearts.forEach(heart => {
-        if (isFavorite) {
-            heart.classList.add('on');
-            heart.style.color = '#e91e63';
-        } else {
-            heart.classList.remove('on');
-            heart.style.color = '#ccc';
-        }
-    });
-}
-
-// 初始化检查是否已加入计划
-function checkIfInWorkoutPlan() {
-    const equipmentId = @Model.Id;
-
-    fetch('@Url.Action("IsInWorkoutPlan", "Workout")?equipmentId=' + equipmentId)
-    .then(response => response.json())
-    .then(data => {
-        if (data.isInPlan) {
-            updateFavoriteStatus(equipmentId, true);
-        }
-    });
-}
-
-// 页面加载时检查
-document.addEventListener('DOMContentLoaded', function() {
-    checkIfInWorkoutPlan();
-});
-</script>
+</body>
+</html>
