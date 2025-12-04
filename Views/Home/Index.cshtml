@@ -1,391 +1,76 @@
-﻿@{
-    ViewBag.Title = "Home";
-}
+﻿<html>
+<head>
+    <link rel="stylesheet" href="~/content/site.css" />
+</head>
+<body>
+    @{
+        ViewBag.Title = "Home";
+    }
 
-<!-- ========== 1. Banner + Slider ========== -->
-<section class="banner hero">
-    <!-- 3 Images -->
-    <div class="slides">
-        <img class="slide" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920" alt="Team Training 3" />
-        <img class="slide active" src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1920" alt="Campus Gym 1" />
-        <img class="slide" src="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?w=1920" alt="Happy Workout 2" />
-    </div>
-
-    <div class="overlay"></div>
-
-    <div class="slogan-center">
-        <h2>
-            <span class="line1">Find Joy in Every Move</span>
-            <span class="line2">Discover Happiness Through Growth</span>
-        </h2>
-        <a href="@Url.Action("Index","Equipment")" class="btn-reserve">Learn Now</a>
-    </div>
-</section>
-
-<!-- ========== 2. Live Occupancy ========== -->
-<section class="occupancy glass reveal">
-    <h3>Current Gym Occupancy</h3>
-    <div class="bar">
-        <div class="fill" style="width:@(ViewBag.Current*100/ViewBag.Max)%"></div>
-    </div>
-    <p>
-        @ViewBag.Current / @ViewBag.Max &nbsp;
-        <span class="@(ViewBag.Current>60?"high":"low")">
-            @(ViewBag.Current>60?"Peak Hours":"Available")
-        </span>
-    </p>
-</section>
-
-<!-- ========== 3. Today's Popular Classes ========== -->
-<section class="popular reveal">
-    <h3>Today's Popular Classes</h3>
-
-    <div class="cards">
-        <div class="card reveal zoom">
-            <img src="https://plus.unsplash.com/premium_photo-1672784161031-f18a87c03c33?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dumbbell Full Body Circuit" />
-            <h4>Dumbbell Full Body Circuit</h4>
-            <p>30 min · Beginner</p>
+    <!-- ========== 1. Banner + Slider ========== -->
+    <section class="banner hero">
+        <!-- 3 Images -->
+        <div class="slides">
+            <img class="slide" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920" alt="Team Training 3" />
+            <img class="slide active" src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1920" alt="Campus Gym 1" />
+            <img class="slide" src="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?w=1920" alt="Happy Workout 2" />
         </div>
 
-        <div class="card reveal zoom">
-            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a" alt="Core Yoga & Stretch" />
-            <h4>Core Yoga & Stretch</h4>
-            <p>45 min · Beginner</p>
+        <div class="overlay"></div>
+
+        <div class="slogan-center">
+            <h2>
+                <span class="line1">Find Joy in Every Move</span>
+                <span class="line2">Discover Happiness Through Growth</span>
+            </h2>
+            <a href="@Url.Action("Index","Equipment")" class="btn-reserve">Learn Now</a>
         </div>
+    </section>
 
-        <div class="card reveal zoom">
-            <img src="https://images.unsplash.com/photo-1470468969717-61d5d54fd036?q=80&w=744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="HIIT Fat Burn" />
-            <h4>HIIT Fat Burn</h4>
-            <p>20 min · Intermediate</p>
+    <!-- ========== 2. Live Occupancy ========== -->
+    <section class="occupancy glass reveal">
+        <h3>Current Gym Occupancy</h3>
+        <div class="bar">
+            <div class="fill" style="width:@(ViewBag.Current*100/ViewBag.Max)%"></div>
         </div>
-    </div>
-</section>
+        <p>
+            @ViewBag.Current / @ViewBag.Max &nbsp;
+            <span class="@(ViewBag.Current>60?"high":"low")">
+                @(ViewBag.Current>60?"Peak Hours":"Available")
+            </span>
+        </p>
+    </section>
 
-<!-- ========== CSS ========== -->
-<style>
-    /* Page background and spacing */
-    body {
-        background: #1a1a1a;
-        padding-top: 80px;
-    }
+    <!-- ========== 3. Today's Popular Classes ========== -->
+    <section class="popular reveal">
+        <h3>Today's Popular Classes</h3>
 
-    /* ====== Navigation Bar Styles ====== */
-    .glass-nav {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        padding: 12px 6%;
-        z-index: 1000;
-        background: rgba(30,30,30,.85);
-        backdrop-filter: blur(16px);
-        border-bottom: 1px solid rgba(255,255,255,.15);
-    }
+        <div class="cards">
+            <div class="card reveal zoom">
+                <img src="https://plus.unsplash.com/premium_photo-1672784161031-f18a87c03c33?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dumbbell Full Body Circuit" />
+                <h4>Dumbbell Full Body Circuit</h4>
+                <p>30 min · Beginner</p>
+            </div>
 
-    .nav-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+            <div class="card reveal zoom">
+                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a" alt="Core Yoga & Stretch" />
+                <h4>Core Yoga & Stretch</h4>
+                <p>45 min · Beginner</p>
+            </div>
 
-    .glass-nav .logo {
-        font-size: 2.4rem;
-        font-weight: 600;
-    }
+            <div class="card reveal zoom">
+                <img src="https://images.unsplash.com/photo-1470468969717-61d5d54fd036?q=80&w=744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="HIIT Fat Burn" />
+                <h4>HIIT Fat Burn</h4>
+                <p>20 min · Intermediate</p>
+            </div>
+        </div>
+    </section>
 
-    .glass-nav ul {
-        display: flex;
-        gap: 32px;
-        list-style: none;
-    }
+    <!-- ========== CSS ========== -->
+    <!-- ===== JS：Parallax + Reveal ===== -->
 
-    .glass-nav a {
-        text-decoration: none;
-        color: #FFFFFF;
-        font-size: 1.2rem;
-        transition: .2s;
-    }
 
-        .glass-nav a:hover {
-            color: #007aff;
-        }
+    <script src="~/Scripts/home-feature.js"></script>
 
-    /* ===== Centered English Slogan ===== */
-    .slogan-center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        text-align: center;
-        color: #fff;
-        font-family: 'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    }
-
-        .slogan-center h2 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            line-height: 1.25;
-            margin-bottom: 2rem;
-            background: linear-gradient(135deg,#ffffff 0%,#d0d0d0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 8px rgba(0,0,0,.25);
-        }
-
-        .slogan-center .line1 {
-            display: block;
-        }
-
-        .slogan-center .line2 {
-            display: block;
-            margin-top: .5rem;
-            font-size: .7em;
-            opacity: .9;
-        }
-
-    /* Premium Button */
-    .btn-reserve {
-        display: inline-block;
-        padding: 16px 48px;
-        background: linear-gradient(135deg,#007aff 0%,#0056d6 100%);
-        color: #fff;
-        font-size: 1.4rem;
-        font-weight: 700;
-        border-radius: 50px;
-        text-decoration: none;
-        box-shadow: 0 8px 24px rgba(0,122,255,.4), inset 0 1px 1px rgba(255,255,255,.3);
-        transition: all .3s ease;
-    }
-
-        .btn-reserve:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0,122,255,.55);
-        }
-
-    /* ===== Banner / Slider ===== */
-    .banner {
-        height: 90vh;
-        position: relative;
-        overflow: hidden;
-        margin-top: 70px;
-    }
-
-    /* --- Slider Core --- */
-    .slides {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-
-    .slide {
-        position: absolute;
-        width: 100%;
-        height: 120%;
-        object-fit: cover;
-        opacity: 0;
-        transition: opacity 1s;
-    }
-
-        .slide.active {
-            opacity: .92;
-        }
-
-    /* Other banner elements */
-    .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,.25);
-    }
-
-    .slogan {
-        position: absolute;
-        top: 45%;
-        left: 8%;
-        transform: translateY(-50%);
-        color: #fff;
-    }
-
-        .slogan h2 {
-            font-size: 3rem;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 20px;
-        }
-
-    .main-btn {
-        background: #007aff;
-        padding: 12px 30px;
-        color: #fff;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: .25s;
-    }
-
-        .main-btn:hover {
-            background: #0056d6;
-        }
-
-    /* ===== Scroll Reveal ===== */
-    .reveal {
-        opacity: 0;
-        transform: translateY(40px);
-        transition: all .9s cubic-bezier(.23,1,.32,1);
-    }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal.zoom {
-            transform: scale(.92);
-        }
-
-            .reveal.zoom.visible {
-                transform: scale(1);
-            }
-
-    /* ===== Cards ===== */
-    .popular {
-        background: rgba(30,30,30,0.8); /* Dark gray background */
-        padding: 60px 0;
-    }
-    .popular h3 {
-            font-size: 2.5rem; /* 改大 */
-            font-weight: 700;
-            color: #fff; /* 改成白色 */
-            text-align: center;
-            margin-bottom: 40px;
-        }
-    .cards {
-        display: flex;
-        gap: 32px;
-        margin-top: 24px;
-        justify-content: center;
-        padding: 0 20px;
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .card {
-        background: rgba(255,255,255,0.1); /* Semi-transparent white */
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 8px 30px rgba(0,0,0,.2);
-        transition: transform .3s;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.1);
-    }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 16px 40px rgba(0,0,0,.3);
-        }
-
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .card h4 {
-            margin: 16px;
-            font-size: 1.3rem;
-            color: #fff;
-        }
-
-        .card p {
-            margin: 0 16px 20px;
-            color: rgba(255,255,255,0.7);
-        }
-
-    /* ===== Occupancy ===== */
-    .occupancy.glass {
-        margin: 60px auto;
-        padding: 30px;
-        width: 60%;
-        background: rgba(255,255,255,.25);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,.1);
-    }
-
-    .bar {
-        width: 100%;
-        background: #e0e0e0;
-        height: 12px;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .fill {
-        height: 100%;
-        background: #007aff;
-    }
-
-    /* Responsive Design */
-    @@media (max-width: 768px) {
-        .cards {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card {
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .occupancy.glass {
-            width: 90%;
-            padding: 20px;
-        }
-
-        .slogan-center h2 {
-            font-size: 2.5rem;
-        }
-
-        .btn-reserve {
-            padding: 12px 32px;
-            font-size: 1.2rem;
-        }
-    }
-</style>
-
-<!-- ===== JS：Parallax + Reveal ===== -->
-<script>
-    /* ========== Parallax ========== */
-    window.addEventListener("scroll", () => {
-        const offset = window.scrollY * .35;
-        document.querySelectorAll(".banner img").forEach(img => {
-            img.style.transform = `translateY(${offset}px)`;
-        });
-    });
-
-    /* ========== Scroll Reveal ========== */
-    const revealEls = document.querySelectorAll(".reveal");
-    function reveal() {
-        revealEls.forEach(el => {
-            const rect = el.getBoundingClientRect().top;
-            if (rect < window.innerHeight * .85) {
-                el.classList.add("visible");
-            }
-        });
-    }
-    window.addEventListener("scroll", reveal);
-    window.addEventListener("load", reveal);
-
-    /* ========== Slider ========== */
-    const slides = document.querySelectorAll('.slide');
-    let idx = 0;
-    setInterval(() => {
-        slides[idx].classList.remove('active');
-        idx = (idx + 1) % slides.length;
-        slides[idx].classList.add('active');
-    }, 5000);
-</script>
+</body>
+</html>

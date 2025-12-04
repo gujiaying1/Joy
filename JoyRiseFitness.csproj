@@ -164,6 +164,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\equipment-detail.js" />
+    <Content Include="Scripts\equipment-index.js" />
+    <Content Include="Scripts\home-feature.js" />
     <Content Include="Scripts\home-resv.js" />
     <Content Include="Scripts\home.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
@@ -177,6 +179,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\occPartial.js" />
+    <Content Include="Scripts\training-generator.js" />
     <Content Include="Scripts\workoutGen.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
