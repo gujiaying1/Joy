@@ -26,24 +26,33 @@ namespace JoyRiseFitness.Controllers
         {
             try
             {
-                System.IO.File.AppendAllText(Server.MapPath("~/log.txt"), $"Generate called: Part={vm.Part}, Level={vm.Level}, Goal={vm.Goal}\r\n");
+                System.IO.File.AppendAllText(Server.MapPath("~/log.txt"),
+                    $"Generate called: Part={vm.Part}, Level={vm.Level}, Goal={vm.Goal}, Gender={vm.Gender}, Age={vm.Age}\r\n");
 
                 var q = _db.AsEnumerable();
-                if (vm.Part.HasValue) q = q.Where(w => w.Part == vm.Part);
-                if (vm.Level.HasValue) q = q.Where(w => w.Difficulty == vm.Level.ToString());
-                if (vm.Goal.HasValue) q = GoalFilter(q, vm.Goal.Value);
+
+                // 过滤条件
+                if (vm.Part.HasValue)
+                    q = q.Where(w => w.Part == vm.Part.Value);
+
+                if (vm.Level.HasValue)
+                    q = q.Where(w => w.Difficulty == vm.Level.Value.ToString());
+
+                if (vm.Goal.HasValue)
+                    q = GoalFilter(q, vm.Goal.Value);
 
                 var generated = q.OrderBy(x => Guid.NewGuid()).Take(6).ToList();
-                vm.Generated = generated;
 
-                System.IO.File.AppendAllText(Server.MapPath("~/log.txt"), $"Generated {generated.Count} items\r\n");
+                System.IO.File.AppendAllText(Server.MapPath("~/log.txt"),
+                    $"Found {generated.Count} items after filtering\r\n");
 
                 return PartialView("_GeneratedList", generated);
             }
             catch (Exception ex)
             {
-                System.IO.File.AppendAllText(Server.MapPath("~/log.txt"), $"Error: {ex}\r\n");
-                return Content("<p>Error generating workout plan. Please try again.</p>");
+                System.IO.File.AppendAllText(Server.MapPath("~/log.txt"),
+                    $"Error in Generate: {ex.Message}\r\n{ex.StackTrace}\r\n");
+                return Content("<div class='empty-state'><p>Error generating workout plan. Please try again.</p></div>");
             }
         }
 
@@ -157,6 +166,32 @@ namespace JoyRiseFitness.Controllers
         {
             var plan = Session["MyPlan"] as List<Workout> ?? new List<Workout>();
             return PartialView("_MyPlan", plan);
+        }
+
+        // 添加这个方法到 GeneratorController
+        [HttpPost]
+        public ActionResult CheckInPlan(int id)
+        {
+            try
+            {
+                var plan = Session["MyPlan"] as List<Workout> ?? new List<Workout>();
+                var isInPlan = plan.Any(w => w.Id == id);
+
+                return Json(new
+                {
+                    success = true,
+                    isInPlan = isInPlan,
+                    message = isInPlan ? "Already in plan" : "Not in plan"
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
+            }
         }
         #endregion
     }

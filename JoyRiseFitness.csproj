@@ -128,7 +128,6 @@
     </Compile>
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Equipment.cs" />
-    <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Workout.cs" />
     <Compile Include="Models\WorkoutGenViewModel.cs" />
     <Compile Include="Models\WorkoutSeed.cs" />
@@ -179,7 +178,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\occPartial.js" />
-    <Content Include="Scripts\training-generator.js" />
     <Content Include="Scripts\workoutGen.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

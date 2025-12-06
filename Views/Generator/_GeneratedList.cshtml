@@ -1,9 +1,15 @@
 @model List<JoyRiseFitness.Models.Workout>
-@if (!Model.Any())
+@{
+    // 添加调试信息
+    System.Diagnostics.Debug.WriteLine($"GeneratedList called: {Model?.Count ?? 0} items");
+}
+
+@if (Model == null || !Model.Any())
 {
     <div class="empty-state">
         <i class="fas fa-dumbbell"></i>
         <p>No matching exercises found. Try different criteria.</p>
+        <p class="debug-info">Debug: Model is @(Model == null ? "null" : "empty")</p>
     </div>
 }
 else

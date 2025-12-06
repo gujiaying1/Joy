@@ -2748,3 +2748,15 @@ body {
         font-size: 1.2rem;
     }
 }
+
+.detail-right,
+.detail-right h3,
+.detail-right h4,
+.detail-right h5,
+.detail-right p,
+.detail-right span,
+.detail-right strong,
+.detail-right li,
+.detail-right i {
+    color: #fff !important;
+}

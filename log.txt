@@ -30,3 +30,17 @@ Generate called: Part=, Level=Beginner, Goal=LoseFat
 Generated 2 items
 Generate called: Part=, Level=, Goal=LoseFat
 Generated 4 items
+Generate called: Part=, Level=, Goal=, Gender=, Age=25
+Found 6 items after filtering
+Generate called: Part=Chest, Level=Beginner, Goal=BuildMuscle, Gender=Male, Age=25
+Found 2 items after filtering
+Generate called: Part=Chest, Level=Beginner, Goal=BuildMuscle, Gender=Male, Age=25
+Found 2 items after filtering
+Generate called: Part=, Level=, Goal=, Gender=Male, Age=25
+Found 6 items after filtering
+Generate called: Part=, Level=, Goal=, Gender=, Age=25
+Found 6 items after filtering
+Generate called: Part=, Level=, Goal=, Gender=, Age=25
+Found 6 items after filtering
+Generate called: Part=, Level=, Goal=, Gender=, Age=25
+Found 6 items after filtering
