@@ -44,3 +44,7 @@ Generate called: Part=, Level=, Goal=, Gender=, Age=25
 Found 6 items after filtering
 Generate called: Part=, Level=, Goal=, Gender=, Age=25
 Found 6 items after filtering
+Generate called: Part=, Level=, Goal=, Gender=, Age=25
+Found 6 items after filtering
+Generate called: Part=, Level=, Goal=, Gender=, Age=25
+Found 6 items after filtering

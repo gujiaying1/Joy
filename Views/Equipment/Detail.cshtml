@@ -1,390 +1,330 @@
-﻿<html>
-<head>
-    <link rel="stylesheet" href="~/content/site.css" />
-</head>
-<body>
+﻿@model JoyRiseFitness.Models.Equipment
+@{
+    ViewBag.Title = Model.Name;
 
-    ﻿@model JoyRiseFitness.Models.Equipment
-    @{
-        ViewBag.Title = Model.Name;
+    // 根据部位自动匹配推荐视频
+    var recommendedVideoUrl = GetRecommendedVideoUrl(Model.Part.ToString().ToLower(), Model.Name);
+}
 
-        // 根据部位自动匹配推荐视频
-        var recommendedVideoUrl = GetRecommendedVideoUrl(Model.Part.ToString().ToLower(), Model.Name);
-    }
-
-    @functions {
-        public string GetRecommendedVideoUrl(string part, string equipmentName)
+@functions {
+    public string GetRecommendedVideoUrl(string part, string equipmentName)
+    {
+        // 根据您的12个具体设备名称精确匹配
+        var videoLibrary = new Dictionary<string, string>
         {
-            // B站健身教学视频库（可以根据需要扩展）
-            var videoLibrary = new Dictionary<string, Dictionary<string, string>>
-            {
-                ["chest"] = new Dictionary<string, string>
-                {
-                    ["Chest Press Machine"] = "BV1Jh411o7oA",
-                    ["Chest Fly Machine"] = "BV1E64y1y7xw",
-                    ["Pec Deck"] = "BV1dy4y1E7Nz",
-                    ["Incline Press"] = "BV1rT411N7vB",
-                    ["Barbell Bench Press"] = "BV16i421h71B",
-                    ["default"] = "BV1Jh411o7oA" // 胸部训练通用视频
-                },
-                ["legs"] = new Dictionary<string, string>
-                {
-                    ["Leg Press"] = "BV1Q44y1B7uX",
-                    ["Leg Extension"] = "BV1jU4y1B7jz",
-                    ["Leg Curl"] = "BV1Kb4y1d7Nz",
-                    ["Squat Rack"] = "BV1V5411T7nS",
-                    ["default"] = "BV1Q44y1B7uX" // 腿部训练通用视频
-                },
-                ["back"] = new Dictionary<string, string>
-                {
-                    ["Lat Pulldown"] = "BV1oV41177cS",
-                    ["Seated Row"] = "BV1nL411w7AK",
-                    ["Back Extension"] = "BV1fP4y1h7Sx",
-                    ["T-Bar Row"] = "BV1tL411w7fW",
-                    ["default"] = "BV1oV41177cS" // 背部训练通用视频
-                },
-                ["arms"] = new Dictionary<string, string>
-                {
-                    ["Bicep Curl"] = "BV1w54y1v7or",
-                    ["Triceps Pushdown"] = "BV1db4y1d7DG",
-                    ["Preacher Curl"] = "BV1YQ4y1Z7JL",
-                    ["Arm Extension"] = "BV1Jb4y1d7vY",
-                    ["default"] = "BV1w54y1v7or" // 手臂训练通用视频
-                },
-                ["shoulders"] = new Dictionary<string, string>
-                {
-                    ["Shoulder Press"] = "BV1nL4y1B7J4",
-                    ["Lateral Raise"] = "BV1PV41177zL",
-                    ["Front Raise"] = "BV1UL4y1B7oL",
-                    ["Dumbbell Shoulder Press"] = "BV1Z841187pJ",
-                    ["Rear Delt Fly"] = "BV1ab4y1d7Gf",
-                    ["default"] = "BV1nL4y1B7J4" // 肩部训练通用视频
-                }
-            };
+            // 胸部训练
+            ["Barbell Bench Press"] = "BV16i421h71B",
+            ["Pec Deck Fly"] = "BV1BfafzfEV8",
 
-            if (videoLibrary.ContainsKey(part.ToLower()))
-            {
-                // 先尝试精确匹配器材名称
-                foreach (var key in videoLibrary[part.ToLower()].Keys)
-                {
-                    if (equipmentName.ToLower().Contains(key.ToLower()))
-                    {
-                        return videoLibrary[part.ToLower()][key];
-                    }
-                }
+            // 肩部训练
+            ["Dumbbell Shoulder Press"] = "BV1uw411N7MC",
 
-                // 使用该部位的默认视频
-                return videoLibrary[part.ToLower()]["default"];
-            }
+            // 背部训练
+            ["Lat Pull-down"] = "BV1eo4y1M7iF",
+            ["Seated Row"] = "BV1y14y1X7by",
 
-            // 默认返回一个通用健身视频
-            return "BV1Jh411o7oA";
+            // 腿部训练
+            ["Leg Press"] = "BV1Ep4y1o7n9",
+            ["Smith Machine Squat"] = "BV1VW411d7Dj",
+            ["Hip Thrust"] = "BV1hc41157Ab", // 使用腿部通用视频
+
+            // 手臂训练
+            ["Biceps Curl"] = "BV1ht411u751",
+            ["Triceps Push-down"] = "BV1Z4411y7G1",
+
+            // 核心训练
+            ["Plank"] = "BV1zx411y7Sm",
+            ["Cable Wood-chop"] = "BV1RZV7ePE7P",
+        };
+
+        // 先尝试精确匹配设备名称
+        if (videoLibrary.ContainsKey(equipmentName))
+        {
+            return videoLibrary[equipmentName];
         }
-    }
 
-    <section class="equipment-detail">
-        <!-- 头部信息 -->
-        <div class="detail-header glass-card">
-            <div class="breadcrumb">
-                <a href="@Url.Action("Index", "Equipment")"><i class="fas fa-arrow-left"></i> Equipment Library</a>
-                <span class="divider">/</span>
-                <span class="current-page">@Model.Name</span>
+        // 如果没有精确匹配，根据部位返回默认视频
+        var defaultVideosByPart = new Dictionary<string, string>
+        {
+            ["chest"] = "BV1Jh411o7oA",      // 胸部通用
+            ["shoulders"] = "BV1nL4y1B7J4",   // 肩部通用
+            ["back"] = "BV1oV41177cS",       // 背部通用
+            ["legs"] = "BV1Q44y1B7uX",       // 腿部通用
+            ["arms"] = "BV1w54y1v7or",       // 手臂通用
+            ["core"] = "BV1Jh411o7oA"        // 核心通用
+        };
+
+        if (defaultVideosByPart.ContainsKey(part.ToLower()))
+        {
+            return defaultVideosByPart[part.ToLower()];
+        }
+
+        // 最终默认返回通用健身视频
+        return "BV1Jh411o7oA";
+    }
+}
+<section class="equipment-detail">
+    <!-- 头部信息 -->
+    <div class="detail-header glass-card">
+        <div class="breadcrumb">
+            <a href="@Url.Action("Index", "Equipment")"><i class="fas fa-arrow-left"></i> Equipment Library</a>
+            <span class="divider">/</span>
+            <span class="current-page">@Model.Name</span>
+        </div>
+
+        <div class="header-content">
+            <div class="header-text">
+                <div class="title-wrapper">
+                    <h1 class="equipment-title">@Model.Name</h1>
+                </div>
+
+                <div class="equipment-meta">
+                    <div class="meta-tag part-tag">
+                        <i class="fas fa-dumbbell"></i>
+                        <span>@Model.Part</span>
+                    </div>
+                    <div class="meta-tag difficulty-tag @Model.Difficulty.ToLower()">
+                        <i class="fas fa-signal"></i>
+                        <span>@Model.Difficulty Level</span>
+                    </div>
+                    <div class="meta-tag type-tag">
+                        <i class="fas fa-cogs"></i>
+                        <span>Strength Training</span>
+                    </div>
+                    <div class="meta-tag time-tag">
+                        <i class="fas fa-clock"></i>
+                        <span>15-20 min</span>
+                    </div>
+                </div>
+
+                <p class="equipment-description">@Model.ShortDesc</p>
+
+                <div class="equipment-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">8-12</div>
+                        <div class="stat-label">Reps</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">3-4</div>
+                        <div class="stat-label">Sets</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">60-90s</div>
+                        <div class="stat-label">Rest</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">@(Model.Part.ToString().ToLower() == "legs" ? "3-4" : "2-3")</div>
+                        <div class="stat-label">Days/Week</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="header-content">
-                <div class="header-text">
-                    <div class="title-wrapper">
-                        <h1 class="equipment-title">@Model.Name</h1>
-                        <div class="title-actions">
-                            <button class="icon-btn share-mini" onclick="shareEquipment()" title="Share">
-                                <i class="fas fa-share-alt"></i>
-                            </button>
-                            <button class="icon-btn print-mini" onclick="window.print()" title="Print">
-                                <i class="fas fa-print"></i>
-                            </button>
-                        </div>
+            <div class="header-image">
+                <img src="@Model.ImgUrl" alt="@Model.Name" class="equipment-main-image" />
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要内容网格 -->
+    <div class="detail-grid" style="display:flex; gap:2rem; align-items:flex-start;">
+        <!-- 左侧：视频和图片 -->
+        <div class="detail-left" style="flex:1 1 50%;">
+            <!-- 主视频区域 -->
+            <div class="video-section glass-card">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-play-circle"></i>
+                        Exercise Demonstration
+                    </h3>
+                </div>
+
+                <div class="video-container">
+                    <div class="bilibili-video-container" id="videoContainer">
+                        <!-- B站视频嵌入 -->
+                        <iframe id="bilibiliPlayer"
+                                src="https://player.bilibili.com/player.html?bvid=@recommendedVideoUrl&page=1&high_quality=1&autoplay=0"
+                                scrolling="no"
+                                border="0"
+                                frameborder="no"
+                                framespacing="0"
+                                allowfullscreen="true">
+                        </iframe>
                     </div>
 
-                    <div class="equipment-meta">
-                        <div class="meta-tag part-tag">
-                            <i class="fas fa-dumbbell"></i>
-                            <span>@Model.Part</span>
+                    <div class="video-controls">
+                        <div class="video-info">
+                            <h4>Recommended Video</h4>
+                            <p>Professional demonstration of proper form and technique</p>
                         </div>
-                        <div class="meta-tag difficulty-tag @Model.Difficulty.ToLower()">
-                            <i class="fas fa-signal"></i>
-                            <span>@Model.Difficulty Level</span>
-                        </div>
-                        <div class="meta-tag type-tag">
-                            <i class="fas fa-cogs"></i>
-                            <span>Strength Training</span>
-                        </div>
-                        <div class="meta-tag time-tag">
-                            <i class="fas fa-clock"></i>
-                            <span>15-20 min</span>
-                        </div>
-                    </div>
-
-                    <p class="equipment-description">@Model.ShortDesc</p>
-
-                    <div class="equipment-stats">
-                        <div class="stat-item">
-                            <div class="stat-value">8-12</div>
-                            <div class="stat-label">Reps</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">3-4</div>
-                            <div class="stat-label">Sets</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">60-90s</div>
-                            <div class="stat-label">Rest</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">@(Model.Part.ToString().ToLower() == "legs" ? "3-4" : "2-3")</div>
-                            <div class="stat-label">Days/Week</div>
+                        <div class="control-buttons">
+                            <button class="control-btn change-video" onclick="showVideoSelector()">
+                                <i class="fas fa-exchange-alt"></i>
+                                Change Video
+                            </button>
+                            <button class="control-btn save-video" onclick="saveVideoPreference()">
+                                <i class="fas fa-bookmark"></i>
+                                Save
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="header-image">
-                    <img src="@Model.ImgUrl" alt="@Model.Name" class="equipment-main-image" />
-                    <div class="image-overlay">
-                        <button class="view-3d-btn">
-                            <i class="fas fa-cube"></i>
-                            3D View
+                <!-- 调试信息（可选） -->
+                <div style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; font-size: 12px;">
+                    <p><strong>Debug Info:</strong> Part: @Model.Part, Name: @Model.Name</p>
+                    <p>Video ID: @recommendedVideoUrl</p>
+                </div>
+
+                <!-- 视频选择器（隐藏） -->
+                <div class="video-selector" id="videoSelector" style="display: none;">
+                    <div class="selector-header">
+                        <h4><i class="fas fa-video"></i> Select Video Source</h4>
+                        <button class="close-selector" onclick="hideVideoSelector()">
+                            <i class="fas fa-times"></i>
                         </button>
+                    </div>
+                    <div class="video-options">
+                        <div class="video-option active" data-video="@recommendedVideoUrl">
+                            <div class="option-preview">
+                                <img src="https://i0.hdslb.com/bfs/archive/bb5d71e8ef1e09fd3ed1d3d75a10e83867aa8a0a.jpg" alt="Recommended" />
+                                <div class="play-overlay">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="option-info">
+                                <h5>Recommended Tutorial</h5>
+                                <p>Professional form demonstration</p>
+                                <span class="option-duration">5:24</span>
+                            </div>
+                        </div>
+
+                        <div class="video-option" data-video="BV1q54y1v7XG">
+                            <div class="option-preview">
+                                <img src="https://i1.hdslb.com/bfs/archive/3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a.jpg" alt="Alternative" />
+                                <div class="play-overlay">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="option-info">
+                                <h5>Beginner Friendly</h5>
+                                <p>Step-by-step guide for beginners</p>
+                                <span class="option-duration">7:15</span>
+                            </div>
+                        </div>
+
+                        <div class="video-option" data-video="BV1zL4y1B7Jk">
+                            <div class="option-preview">
+                                <img src="https://i2.hdslb.com/bfs/archive/4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b.jpg" alt="Advanced" />
+                                <div class="play-overlay">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="option-info">
+                                <h5>Advanced Techniques</h5>
+                                <p>For experienced lifters</p>
+                                <span class="option-duration">8:42</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="custom-video-input">
+                        <div class="input-group">
+                            <input type="text"
+                                   id="customVideoUrl"
+                                   placeholder="Paste Bilibili video URL (BV号 or av号)"
+                                   class="video-url-input" />
+                            <button class="load-btn" onclick="loadCustomVideo()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                Load
+                            </button>
+                        </div>
+                        <small class="input-hint">
+                            Supported formats: BV1xx411c7mD or av170001
+                        </small>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 主要内容网格 -->
-        <!-- 主要内容网格 -->
-        <div class="detail-grid" style="display:flex; gap:2rem; align-items:flex-start;">
-            <!-- 左侧：视频和图片 -->
-            <!-- 左侧：视频和图片 -->
-            <div class="detail-left" style="flex:1 1 50%;">
-                <!-- 主视频区域 -->
-                <div class="video-section glass-card">
-                    <div class="section-header">
-                        <h3 class="section-title">
-                            <i class="fas fa-play-circle"></i>
-                            Exercise Demonstration
-                        </h3>
-                        <div class="video-actions">
-                            <button class="action-btn slow-motion" onclick="toggleSlowMotion()" title="Slow Motion">
-                                <i class="fas fa-tachometer-alt"></i>
-                            </button>
-                            <button class="action-btn fullscreen" onclick="toggleFullscreen()" title="Fullscreen">
-                                <i class="fas fa-expand"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="video-container">
-                        <div class="bilibili-video-container" id="videoContainer">
-                            <!-- B站视频嵌入 -->
-                            <iframe id="bilibiliPlayer"
-                                    src="https://player.bilibili.com/player.html?bvid=@recommendedVideoUrl&page=1&high_quality=1&autoplay=0"
-                                    scrolling="no"
-                                    border="0"
-                                    frameborder="no"
-                                    framespacing="0"
-                                    allowfullscreen="true">
-                            </iframe>
-                        </div>
-
-                        <div class="video-controls">
-                            <div class="video-info">
-                                <h4>Recommended Video</h4>
-                                <p>Professional demonstration of proper form and technique</p>
-                            </div>
-                            <div class="control-buttons">
-                                <button class="control-btn change-video" onclick="showVideoSelector()">
-                                    <i class="fas fa-exchange-alt"></i>
-                                    Change Video
-                                </button>
-                                <button class="control-btn save-video" onclick="saveVideoPreference()">
-                                    <i class="fas fa-bookmark"></i>
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 视频选择器（隐藏） -->
-                    <div class="video-selector" id="videoSelector" style="display: none;">
-                        <div class="selector-header">
-                            <h4><i class="fas fa-video"></i> Select Video Source</h4>
-                            <button class="close-selector" onclick="hideVideoSelector()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div class="video-options">
-                            <div class="video-option active" data-video="@recommendedVideoUrl">
-                                <div class="option-preview">
-                                    <img src="https://i0.hdslb.com/bfs/archive/bb5d71e8ef1e09fd3ed1d3d75a10e83867aa8a0a.jpg" alt="Recommended" />
-                                    <div class="play-overlay">
-                                        <i class="fas fa-play"></i>
-                                    </div>
-                                </div>
-                                <div class="option-info">
-                                    <h5>Recommended Tutorial</h5>
-                                    <p>Professional form demonstration</p>
-                                    <span class="option-duration">5:24</span>
-                                </div>
-                            </div>
-
-                            <div class="video-option" data-video="BV1q54y1v7XG">
-                                <div class="option-preview">
-                                    <img src="https://i1.hdslb.com/bfs/archive/3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a.jpg" alt="Alternative" />
-                                    <div class="play-overlay">
-                                        <i class="fas fa-play"></i>
-                                    </div>
-                                </div>
-                                <div class="option-info">
-                                    <h5>Beginner Friendly</h5>
-                                    <p>Step-by-step guide for beginners</p>
-                                    <span class="option-duration">7:15</span>
-                                </div>
-                            </div>
-
-                            <div class="video-option" data-video="BV1zL4y1B7Jk">
-                                <div class="option-preview">
-                                    <img src="https://i2.hdslb.com/bfs/archive/4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b.jpg" alt="Advanced" />
-                                    <div class="play-overlay">
-                                        <i class="fas fa-play"></i>
-                                    </div>
-                                </div>
-                                <div class="option-info">
-                                    <h5>Advanced Techniques</h5>
-                                    <p>For experienced lifters</p>
-                                    <span class="option-duration">8:42</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="custom-video-input">
-                            <div class="input-group">
-                                <input type="text"
-                                       id="customVideoUrl"
-                                       placeholder="Paste Bilibili video URL (BV号 or av号)"
-                                       class="video-url-input" />
-                                <button class="load-btn" onclick="loadCustomVideo()">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    Load
-                                </button>
-                            </div>
-                            <small class="input-hint">
-                                Supported formats: BV1xx411c7mD or av170001
-                            </small>
-                        </div>
-                    </div>
+        <!-- 右侧：指导信息 -->
+        <div class="detail-right" style="flex:1 1 50%;">
+            <!-- 步骤指导 -->
+            <div class="instructions-section glass-card">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-list-ol"></i>
+                        Step-by-Step Guide
+                    </h3>
                 </div>
 
+                <div class="instructions-content">
+                    <ol class="steps-list" id="stepsList">
+                        <!-- 步骤会根据部位动态生成 -->
+                        <li>Adjust the equipment to your height and comfort</li>
+                        <li>Set appropriate weight for your fitness level</li>
+                        <li>Maintain proper posture throughout the exercise</li>
+                        <li>Perform controlled movements without rushing</li>
+                        <li>Breathe consistently during the exercise</li>
+                        <li>Rest adequately between sets</li>
+                    </ol>
 
-
-                <!-- 右侧：指导信息 -->
-                <!-- 右侧：指导信息 -->
-                <div class="detail-right" style="flex:1 1 50%;">
-                    <!-- 步骤指导 -->
-                    <div class="instructions-section glass-card">
-                        <div class="section-header">
-                            <h3 class="section-title">
-                                <i class="fas fa-list-ol"></i>
-                                Step-by-Step Guide
-                            </h3>
-                            <div class="timer-section">
-                                <div class="timer-display">
-                                    <i class="fas fa-stopwatch"></i>
-                                    <span id="workoutTimer">00:00</span>
-                                </div>
-                                <button class="timer-btn" onclick="startWorkoutTimer()">
-                                    <i class="fas fa-play"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="instructions-content">
-                            <div class="phase-indicator">
-                                <div class="phase active" data-phase="setup">Setup</div>
-                                <div class="phase" data-phase="execution">Execution</div>
-                                <div class="phase" data-phase="safety">Safety</div>
-                            </div>
-
-                            <ol class="steps-list" id="stepsList">
-                                <!-- 步骤会根据部位动态生成 -->
-                            </ol>
-
-                            <div class="pro-tips">
-                                <h4><i class="fas fa-star"></i> Pro Tips</h4>
-                                <div class="tip-content">
-                                    <p><strong>Mind-Muscle Connection:</strong> Focus on feeling the target muscle work throughout the movement.</p>
-                                    <p><strong>Progressive Overload:</strong> Gradually increase weight or reps each week to continue progress.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 训练建议 -->
-                    <div class="workout-tips glass-card">
-                        <h3 class="section-title">
-                            <i class="fas fa-lightbulb"></i>
-                            Training Tips
-                        </h3>
-                        <div class="tips-grid">
-                            <div class="tip-item">
-                                <i class="fas fa-dumbbell"></i>
-                                <div class="tip-content">
-                                    <h4>Weight Selection</h4>
-                                    <p>Choose a weight that allows you to complete 8-15 reps with proper form</p>
-                                </div>
-                            </div>
-                            <div class="tip-item">
-                                <i class="fas fa-wind"></i>
-                                <div class="tip-content">
-                                    <h4>Breathing</h4>
-                                    <p>Exhale during exertion, inhale during the return phase</p>
-                                </div>
-                            </div>
-                            <div class="tip-item">
-                                <i class="fas fa-clock"></i>
-                                <div class="tip-content">
-                                    <h4>Tempo</h4>
-                                    <p>2 seconds lifting, 1 second pause, 3 seconds lowering</p>
-                                </div>
-                            </div>
-                            <div class="tip-item">
-                                <i class="fas fa-shield-alt"></i>
-                                <div class="tip-content">
-                                    <h4>Safety</h4>
-                                    <p>Always use spotters for heavy lifts and check equipment before use</p>
-                                </div>
-                            </div>
+                    <div class="pro-tips">
+                        <h4><i class="fas fa-star"></i> Pro Tips</h4>
+                        <div class="tip-content">
+                            <p><strong>Mind-Muscle Connection:</strong> Focus on feeling the target muscle work throughout the movement.</p>
+                            <p><strong>Progressive Overload:</strong> Gradually increase weight or reps each week to continue progress.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-
-            <!-- 模态框 -->
-            <div class="modal" id="videoModal" style="display: none;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>Video Library</h3>
-                        <button class="modal-close" onclick="closeModal()">
-                            <i class="fas fa-times"></i>
-                        </button>
+            <!-- 训练建议 -->
+            <div class="workout-tips glass-card">
+                <h3 class="section-title">
+                    <i class="fas fa-lightbulb"></i>
+                    Training Tips
+                </h3>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <i class="fas fa-dumbbell"></i>
+                        <div class="tip-content">
+                            <h4>Weight Selection</h4>
+                            <p>Choose a weight that allows you to complete 8-15 reps with proper form</p>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <!-- 模态框内容 -->
+                    <div class="tip-item">
+                        <i class="fas fa-wind"></i>
+                        <div class="tip-content">
+                            <h4>Breathing</h4>
+                            <p>Exhale during exertion, inhale during the return phase</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="tip-content">
+                            <h4>Tempo</h4>
+                            <p>2 seconds lifting, 1 second pause, 3 seconds lowering</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="tip-content">
+                            <h4>Safety</h4>
+                            <p>Always use spotters for heavy lifts and check equipment before use</p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
 
-
-            <script src="~/script/equipment-detail.js"></script>
-
-
-</body>
-</html>
+    <script src="~/script/equipment-detail.js"></script>
+    <script>
+        // 调试脚本
+        console.log('Equipment Detail Loaded');
+        console.log('Equipment Name:', '@Model.Name');
+        console.log('Equipment Part:', '@Model.Part');
+        console.log('Video ID:', '@recommendedVideoUrl');
+    </script>
+</section>

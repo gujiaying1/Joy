@@ -111,6 +111,7 @@ new Equipment{Id=12, Name="Triceps Push-down",
 
         // 修复Detail方法，使用可空参数
         // 在 EquipmentController 的 Detail 方法中，确保返回正确的类型
+        // 修改 EquipmentController 中的 Detail 方法
         public ActionResult Detail(int? id)
         {
             if (!id.HasValue)
@@ -124,15 +125,8 @@ new Equipment{Id=12, Name="Triceps Push-down",
                 return HttpNotFound();
             }
 
-            // 如果 Detail 视图期望 Workout 类型而不是 Equipment 类型
-            // 需要从 WorkoutSeed 获取对应的 Workout
-            var workout = WorkoutSeed.Seed().FirstOrDefault(w => w.Id == id.Value);
-            if (workout != null)
-            {
-                return View(workout); // 返回 Workout 类型
-            }
-
-            return View(item); // 返回 Equipment 类型
+            // 只返回 Equipment 类型，不尝试转换
+            return View(item);
         }
     }
 }
